@@ -1,0 +1,4 @@
+enum DocumentType {
+  cpf,
+  cnpj,
+}

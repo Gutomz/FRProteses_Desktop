@@ -1,0 +1,4 @@
+enum OrderStatusType {
+  open,
+  closed,
+}
