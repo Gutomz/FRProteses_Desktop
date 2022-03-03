@@ -1,5 +1,5 @@
-import 'package:frproteses/src/domain/entities/payment_method_entity.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
+import 'package:frproteses/src/domain/entities/payment_method_entity.dart';
 
 class PaymentEntity {
   int id;

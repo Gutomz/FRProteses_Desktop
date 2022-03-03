@@ -12,8 +12,9 @@ class SetBankAccount
 
   @override
   Future<Either<Failure, BankAccountEntity>> call(
-      SetBankAccountParams params) async {
-    return await bankAccountRepository.setBankAccount(params.bankAccountEntity);
+    SetBankAccountParams params,
+  ) async {
+    return bankAccountRepository.setBankAccount(params.bankAccountEntity);
   }
 }
 

@@ -11,8 +11,9 @@ class GetProductById implements UseCase<ProductEntity, GetProductByIdParams> {
 
   @override
   Future<Either<Failure, ProductEntity>> call(
-      GetProductByIdParams params) async {
-    return await productRepository.getProductById(params.id);
+    GetProductByIdParams params,
+  ) async {
+    return productRepository.getProductById(params.id);
   }
 }
 

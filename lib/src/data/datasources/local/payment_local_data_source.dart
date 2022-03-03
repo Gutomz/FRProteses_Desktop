@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:collection/collection.dart';
+import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/payment_model.dart';
 
 abstract class IPaymentLocalDataSource {
@@ -31,9 +31,12 @@ class PaymentLocalDataSourceImpl implements IPaymentLocalDataSource {
   Future<List<PaymentModel>> getPaymentAll() async {
     try {
       final lines = paymentFile.readAsLinesSync();
-      List<PaymentModel> payments = lines
-          .map((line) =>
-              PaymentModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final payments = lines
+          .map(
+            (line) => PaymentModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return payments;
@@ -67,14 +70,14 @@ class PaymentLocalDataSourceImpl implements IPaymentLocalDataSource {
       models[index] = paymentModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      paymentFile.writeAsStringSync(content);
+      paymentFile.writeAsStringSync(content.toString());
       return paymentModel;
     } on FileSystemException {
       throw LocalException();

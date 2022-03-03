@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:collection/collection.dart';
+import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/order_model.dart';
 
 abstract class IOrderLocalDataSource {
@@ -31,9 +31,12 @@ class OrderLocalDataSourceImpl implements IOrderLocalDataSource {
   Future<List<OrderModel>> getOrderAll() async {
     try {
       final lines = orderFile.readAsLinesSync();
-      List<OrderModel> orders = lines
-          .map((line) =>
-              OrderModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final orders = lines
+          .map(
+            (line) => OrderModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return orders;
@@ -67,14 +70,14 @@ class OrderLocalDataSourceImpl implements IOrderLocalDataSource {
       models[index] = orderModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      orderFile.writeAsStringSync(content);
+      orderFile.writeAsStringSync(content.toString());
       return orderModel;
     } on FileSystemException {
       throw LocalException();

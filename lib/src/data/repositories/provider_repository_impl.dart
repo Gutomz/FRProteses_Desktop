@@ -1,9 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/exception.dart';
+import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/data/datasources/local/provider_local_data_source.dart';
 import 'package:frproteses/src/data/models/provider_model.dart';
 import 'package:frproteses/src/domain/entities/provider_entity.dart';
-import 'package:frproteses/src/core/errors/failure.dart';
-import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
 
 class ProviderRepositoryImpl implements IProviderRepository {
@@ -33,7 +33,8 @@ class ProviderRepositoryImpl implements IProviderRepository {
 
   @override
   Future<Either<Failure, ProviderEntity>> setProvider(
-      ProviderEntity providerEntity) async {
+    ProviderEntity providerEntity,
+  ) async {
     try {
       final model = await localDataSource
           .setProvider(ProviderModel.copyFrom(providerEntity));

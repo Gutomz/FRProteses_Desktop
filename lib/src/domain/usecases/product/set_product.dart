@@ -11,7 +11,7 @@ class SetProduct implements UseCase<ProductEntity, SetProductParams> {
 
   @override
   Future<Either<Failure, ProductEntity>> call(SetProductParams params) async {
-    return await productRepository.setProduct(params.productEntity);
+    return productRepository.setProduct(params.productEntity);
   }
 }
 

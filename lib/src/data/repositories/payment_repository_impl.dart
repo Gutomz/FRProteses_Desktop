@@ -1,9 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/exception.dart';
+import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/data/datasources/local/payment_local_data_source.dart';
 import 'package:frproteses/src/data/models/payment_model.dart';
 import 'package:frproteses/src/domain/entities/payment_entity.dart';
-import 'package:frproteses/src/core/errors/failure.dart';
-import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/domain/repositories/payment_repository.dart';
 
 class PaymentRepositoryImpl implements IPaymentRepository {
@@ -33,7 +33,8 @@ class PaymentRepositoryImpl implements IPaymentRepository {
 
   @override
   Future<Either<Failure, PaymentEntity>> setPayment(
-      PaymentEntity paymentEntity) async {
+    PaymentEntity paymentEntity,
+  ) async {
     try {
       final model = await localDataSource
           .setPayment(PaymentModel.copyFrom(paymentEntity));

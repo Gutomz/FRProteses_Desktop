@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/product_model.dart';
-import 'package:collection/collection.dart';
 
 abstract class IProductLocalDataSource {
   /// Create or Update product locally
@@ -31,9 +31,12 @@ class ProductLocalDataSourceImpl implements IProductLocalDataSource {
   Future<List<ProductModel>> getProductAll() async {
     try {
       final lines = productFile.readAsLinesSync();
-      List<ProductModel> products = lines
-          .map((line) =>
-              ProductModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final products = lines
+          .map(
+            (line) => ProductModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return products;
@@ -67,14 +70,14 @@ class ProductLocalDataSourceImpl implements IProductLocalDataSource {
       models[index] = productModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      productFile.writeAsStringSync(content);
+      productFile.writeAsStringSync(content.toString());
       return productModel;
     } on FileSystemException {
       throw LocalException();

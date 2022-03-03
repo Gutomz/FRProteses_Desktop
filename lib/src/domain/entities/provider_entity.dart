@@ -1,5 +1,5 @@
-import 'package:frproteses/src/domain/entities/address_entity.dart';
 import 'package:frproteses/src/core/enums/document_type.dart';
+import 'package:frproteses/src/domain/entities/address_entity.dart';
 
 class ProviderEntity {
   int id;

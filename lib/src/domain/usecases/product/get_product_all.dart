@@ -11,6 +11,6 @@ class GetProductAll implements UseCase<List<ProductEntity>, NoParams> {
 
   @override
   Future<Either<Failure, List<ProductEntity>>> call(NoParams params) async {
-    return await productRepository.getProductAll();
+    return productRepository.getProductAll();
   }
 }

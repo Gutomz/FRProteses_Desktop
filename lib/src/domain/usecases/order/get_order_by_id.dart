@@ -11,7 +11,7 @@ class GetOrderById implements UseCase<OrderEntity, GetOrderByIdParams> {
 
   @override
   Future<Either<Failure, OrderEntity>> call(GetOrderByIdParams params) async {
-    return await orderRepository.getOrderById(params.id);
+    return orderRepository.getOrderById(params.id);
   }
 }
 

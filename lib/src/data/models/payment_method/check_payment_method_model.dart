@@ -6,12 +6,13 @@ class CheckPaymentMethodModel extends CheckPaymentMethodEntity
   CheckPaymentMethodModel(String number) : super(number);
 
   factory CheckPaymentMethodModel.copyFrom(
-      CheckPaymentMethodEntity checkPaymentMethodEntity) {
+    CheckPaymentMethodEntity checkPaymentMethodEntity,
+  ) {
     return CheckPaymentMethodModel(checkPaymentMethodEntity.number);
   }
 
   factory CheckPaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    return CheckPaymentMethodModel(json["number"]);
+    return CheckPaymentMethodModel(json["number"] as String);
   }
 
   @override

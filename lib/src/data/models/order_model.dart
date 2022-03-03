@@ -1,10 +1,10 @@
+import 'package:frproteses/src/core/enums/order_model_type.dart';
+import 'package:frproteses/src/core/enums/order_status_type.dart';
 import 'package:frproteses/src/data/models/customer_model.dart';
 import 'package:frproteses/src/data/models/dental_arch_model.dart';
 import 'package:frproteses/src/data/models/order_item_model.dart';
-import 'package:frproteses/src/domain/entities/dental_arch_entity.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
-import 'package:frproteses/src/core/enums/order_status_type.dart';
-import 'package:frproteses/src/core/enums/order_model_type.dart';
+import 'package:frproteses/src/domain/entities/dental_arch_entity.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 import 'package:frproteses/src/domain/entities/order_item_entity.dart';
 
@@ -52,21 +52,25 @@ class OrderModel extends OrderEntity {
     List<OrderItemEntity> items = List.empty(growable: true);
 
     if (json.containsKey("items")) {
-      items = json["items"]
-          .map<OrderItemEntity>((e) => OrderItemModel.fromJson(e))
+      items = (json["items"] as List)
+          .map<OrderItemEntity>(
+            (e) => OrderItemModel.fromJson(e as Map<String, dynamic>),
+          )
           .toList();
     }
 
     return OrderModel(
       id: (json["id"] as num).toInt(),
-      orderDate: json["orderDate"],
-      deliveryDate: json["deliveryDate"],
-      customer: CustomerModel.fromJson(json["customer"]),
-      patientName: json["patientName"],
-      color: json["color"],
-      modelType: json["modelType"],
-      dentalArch: DentalArchModel.fromJson(json["dentalArch"]),
-      statusType: json["statusType"],
+      orderDate: json["orderDate"] as String,
+      deliveryDate: json["deliveryDate"] as String,
+      customer:
+          CustomerModel.fromJson(json["customer"] as Map<String, dynamic>),
+      patientName: json["patientName"] as String,
+      color: json["color"] as String,
+      modelType: json["modelType"] as OrderModelType,
+      dentalArch:
+          DentalArchModel.fromJson(json["dentalArch"] as Map<String, dynamic>),
+      statusType: json["statusType"] as OrderStatusType,
       items: items,
     );
   }

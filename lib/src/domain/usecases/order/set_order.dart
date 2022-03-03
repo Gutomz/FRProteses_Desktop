@@ -11,7 +11,7 @@ class SetOrder implements UseCase<OrderEntity, SetOrderParams> {
 
   @override
   Future<Either<Failure, OrderEntity>> call(SetOrderParams params) async {
-    return await orderRepository.setOrder(params.orderEntity);
+    return orderRepository.setOrder(params.orderEntity);
   }
 }
 

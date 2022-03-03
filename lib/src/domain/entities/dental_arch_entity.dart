@@ -42,7 +42,7 @@ class DentalArchEntity {
     });
   }
 
-  bool setTeeth(DentalArchType dentalArchType, bool value) {
+  bool setTeeth(DentalArchType dentalArchType, {bool value = false}) {
     if (arch.containsKey(dentalArchType)) {
       return arch.update(dentalArchType, (_) => value);
     }

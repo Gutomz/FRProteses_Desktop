@@ -1,9 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/exception.dart';
+import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/data/datasources/local/customer_local_data_source.dart';
 import 'package:frproteses/src/data/models/customer_model.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
-import 'package:frproteses/src/core/errors/failure.dart';
-import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/domain/repositories/customer_repository.dart';
 
 class CustomerRepositoryImpl implements ICustomerRepository {
@@ -33,7 +33,8 @@ class CustomerRepositoryImpl implements ICustomerRepository {
 
   @override
   Future<Either<Failure, CustomerEntity>> setCustomer(
-      CustomerEntity customerEntity) async {
+    CustomerEntity customerEntity,
+  ) async {
     try {
       final model = await localDataSource
           .setCustomer(CustomerModel.copyFrom(customerEntity));

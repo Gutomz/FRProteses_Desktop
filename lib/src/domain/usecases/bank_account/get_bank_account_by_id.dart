@@ -12,8 +12,9 @@ class GetBankAccountById
 
   @override
   Future<Either<Failure, BankAccountEntity>> call(
-      GetBankAccountByIdParams params) async {
-    return await bankAccountRepository.getBankAccountById(params.id);
+    GetBankAccountByIdParams params,
+  ) async {
+    return bankAccountRepository.getBankAccountById(params.id);
   }
 }
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:collection/collection.dart';
+import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/bank_account_model.dart';
 
 abstract class IBankAccountLocalDataSource {
@@ -31,9 +31,12 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
   Future<List<BankAccountModel>> getBankAccountAll() async {
     try {
       final lines = bankAccountFile.readAsLinesSync();
-      List<BankAccountModel> bankAccounts = lines
-          .map((line) =>
-              BankAccountModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final bankAccounts = lines
+          .map(
+            (line) => BankAccountModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return bankAccounts;
@@ -56,7 +59,8 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
 
   @override
   Future<BankAccountModel> setBankAccount(
-      BankAccountModel bankAccountModel) async {
+    BankAccountModel bankAccountModel,
+  ) async {
     final models = await getBankAccountAll();
     final model =
         models.firstWhereOrNull((element) => element.id == bankAccountModel.id);
@@ -68,14 +72,14 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
       models[index] = bankAccountModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      bankAccountFile.writeAsStringSync(content);
+      bankAccountFile.writeAsStringSync(content.toString());
       return bankAccountModel;
     } on FileSystemException {
       throw LocalException();

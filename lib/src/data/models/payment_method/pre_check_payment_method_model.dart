@@ -7,7 +7,8 @@ class PreCheckPaymentMethodModel extends PreCheckPaymentMethodEntity
       : super(number: number, dayFor: dayFor);
 
   factory PreCheckPaymentMethodModel.copyFrom(
-      PreCheckPaymentMethodEntity preCheckPaymentMethodEntity) {
+    PreCheckPaymentMethodEntity preCheckPaymentMethodEntity,
+  ) {
     return PreCheckPaymentMethodModel(
       number: preCheckPaymentMethodEntity.number,
       dayFor: preCheckPaymentMethodEntity.dayFor,
@@ -16,8 +17,8 @@ class PreCheckPaymentMethodModel extends PreCheckPaymentMethodEntity
 
   factory PreCheckPaymentMethodModel.fromJson(Map<String, dynamic> json) {
     return PreCheckPaymentMethodModel(
-      number: json["number"],
-      dayFor: json["dayFor"],
+      number: json["number"] as String,
+      dayFor: json["dayFor"] as String,
     );
   }
 

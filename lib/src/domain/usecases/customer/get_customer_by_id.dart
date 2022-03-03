@@ -12,8 +12,9 @@ class GetCustomerById
 
   @override
   Future<Either<Failure, CustomerEntity>> call(
-      GetCustomerByIdParams params) async {
-    return await customerRepository.getCustomerById(params.id);
+    GetCustomerByIdParams params,
+  ) async {
+    return customerRepository.getCustomerById(params.id);
   }
 }
 

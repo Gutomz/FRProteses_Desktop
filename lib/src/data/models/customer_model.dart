@@ -35,12 +35,12 @@ class CustomerModel extends CustomerEntity {
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(
       id: (json["id"] as num).toInt(),
-      name: json["name"],
-      phone: json["phone"],
-      email: json["email"],
-      document: json["document"],
-      documentType: json["documentType"],
-      notes: json["notes"],
+      name: json["name"] as String,
+      phone: json["phone"] as String,
+      email: json["email"] as String,
+      document: json["document"] as String,
+      documentType: json["documentType"] as DocumentType,
+      notes: json["notes"] as String,
     );
   }
 

@@ -11,6 +11,6 @@ class GetPaymentAll implements UseCase<List<PaymentEntity>, NoParams> {
 
   @override
   Future<Either<Failure, List<PaymentEntity>>> call(NoParams params) async {
-    return await paymentRepository.getPaymentAll();
+    return paymentRepository.getPaymentAll();
   }
 }

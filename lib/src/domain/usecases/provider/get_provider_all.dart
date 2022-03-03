@@ -9,6 +9,6 @@ class GetProviderAll {
   GetProviderAll(this.providerRepository);
 
   Future<Either<Failure, List<ProviderEntity>>> call() async {
-    return await providerRepository.getProviderAll();
+    return providerRepository.getProviderAll();
   }
 }

@@ -9,7 +9,8 @@ class SetProvider {
   SetProvider(this.providerRepository);
 
   Future<Either<Failure, ProviderEntity>> call(
-      ProviderEntity providerEntity) async {
-    return await providerRepository.setProvider(providerEntity);
+    ProviderEntity providerEntity,
+  ) async {
+    return providerRepository.setProvider(providerEntity);
   }
 }

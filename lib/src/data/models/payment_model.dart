@@ -35,11 +35,12 @@ class PaymentModel extends PaymentEntity {
   factory PaymentModel.fromJson(Map<String, dynamic> json) {
     return PaymentModel(
       id: (json["id"] as num).toInt(),
-      date: json["date"],
-      customer: CustomerModel.fromJson(json["customer"]),
+      date: json["date"] as String,
+      customer:
+          CustomerModel.fromJson(json["customer"] as Map<String, dynamic>),
       value: (json["value"] as num).toDouble(),
       method: PaymentMethodModel.fromJson(json),
-      notes: json["notes"],
+      notes: json["notes"] as String,
     );
   }
 

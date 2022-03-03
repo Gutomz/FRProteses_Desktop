@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:collection/collection.dart';
+import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/provider_model.dart';
 
 abstract class IProviderLocalDataSource {
@@ -31,9 +31,12 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
   Future<List<ProviderModel>> getProviderAll() async {
     try {
       final lines = providerFile.readAsLinesSync();
-      List<ProviderModel> providers = lines
-          .map((line) =>
-              ProviderModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final providers = lines
+          .map(
+            (line) => ProviderModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return providers;
@@ -67,14 +70,14 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
       models[index] = providerModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      providerFile.writeAsStringSync(content);
+      providerFile.writeAsStringSync(content.toString());
       return providerModel;
     } on FileSystemException {
       throw LocalException();
