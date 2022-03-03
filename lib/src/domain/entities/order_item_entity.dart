@@ -4,13 +4,12 @@ class OrderItemEntity {
   int id;
   ProductEntity product;
   int quantity;
-  late double unitPrice;
+  double unitPrice;
 
   OrderItemEntity({
     required this.id,
     required this.product,
     required this.quantity,
-  }) {
-    unitPrice = product.price;
-  }
+    required this.unitPrice,
+  });
 }
