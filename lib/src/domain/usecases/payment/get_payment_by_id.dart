@@ -11,8 +11,9 @@ class GetPaymentById implements UseCase<PaymentEntity, GetPaymentByIdParams> {
 
   @override
   Future<Either<Failure, PaymentEntity>> call(
-      GetPaymentByIdParams params) async {
-    return await paymentRepository.getPaymentById(params.id);
+    GetPaymentByIdParams params,
+  ) async {
+    return paymentRepository.getPaymentById(params.id);
   }
 }
 

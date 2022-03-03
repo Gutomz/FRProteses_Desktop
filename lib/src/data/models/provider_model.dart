@@ -1,6 +1,6 @@
+import 'package:frproteses/src/core/enums/document_type.dart';
 import 'package:frproteses/src/data/models/address_model.dart';
 import 'package:frproteses/src/domain/entities/address_entity.dart';
-import 'package:frproteses/src/core/enums/document_type.dart';
 import 'package:frproteses/src/domain/entities/provider_entity.dart';
 
 class ProviderModel extends ProviderEntity {
@@ -40,13 +40,13 @@ class ProviderModel extends ProviderEntity {
   factory ProviderModel.fromJson(Map<String, dynamic> json) {
     return ProviderModel(
       id: (json["id"] as num).toInt(),
-      name: json["name"],
-      phone: json["phone"],
-      email: json["email"],
-      address: AddressModel.fromJson(json["address"]),
-      document: json["document"],
-      documentType: json["documentType"],
-      notes: json["notes"],
+      name: json["name"] as String,
+      phone: json["phone"] as String,
+      email: json["email"] as String,
+      address: AddressModel.fromJson(json["address"] as Map<String, dynamic>),
+      document: json["document"] as String,
+      documentType: json["documentType"] as DocumentType,
+      notes: json["notes"] as String,
     );
   }
 

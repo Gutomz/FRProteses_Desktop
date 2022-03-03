@@ -11,7 +11,7 @@ class SetCustomer implements UseCase<CustomerEntity, SetCustomerParams> {
 
   @override
   Future<Either<Failure, CustomerEntity>> call(SetCustomerParams params) async {
-    return await customerRepository.setCustomer(params.customerEntity);
+    return customerRepository.setCustomer(params.customerEntity);
   }
 }
 

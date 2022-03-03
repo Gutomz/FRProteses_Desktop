@@ -27,7 +27,7 @@ class OrderItemModel extends OrderItemEntity {
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
     return OrderItemModel(
       id: (json["id"] as num).toInt(),
-      product: ProductModel.fromJson(json["product"]),
+      product: ProductModel.fromJson(json["product"] as Map<String, dynamic>),
       quantity: (json["quantity"] as num).toInt(),
       unitPrice: (json["unitPrice"] as num).toDouble(),
     );

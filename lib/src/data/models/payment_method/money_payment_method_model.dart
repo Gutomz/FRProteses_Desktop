@@ -6,10 +6,13 @@ class MoneyPaymentMethodModel extends MoneyPaymentMethodEntity
   MoneyPaymentMethodModel();
 
   factory MoneyPaymentMethodModel.copyFrom(
-      MoneyPaymentMethodEntity moneyPaymentMethodEntity) {
+    // ignore: avoid_unused_constructor_parameters
+    MoneyPaymentMethodEntity moneyPaymentMethodEntity,
+  ) {
     return MoneyPaymentMethodModel();
   }
 
+  // ignore: avoid_unused_constructor_parameters
   factory MoneyPaymentMethodModel.fromJson(Map<String, dynamic> json) {
     return MoneyPaymentMethodModel();
   }

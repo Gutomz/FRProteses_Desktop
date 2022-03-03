@@ -1,9 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/exception.dart';
+import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/data/datasources/local/product_local_data_source.dart';
 import 'package:frproteses/src/data/models/product_model.dart';
 import 'package:frproteses/src/domain/entities/product_entity.dart';
-import 'package:frproteses/src/core/errors/failure.dart';
-import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements IProductRepository {
@@ -33,7 +33,8 @@ class ProductRepositoryImpl implements IProductRepository {
 
   @override
   Future<Either<Failure, ProductEntity>> setProduct(
-      ProductEntity productEntity) async {
+    ProductEntity productEntity,
+  ) async {
     try {
       final model = await localDataSource
           .setProduct(ProductModel.copyFrom(productEntity));

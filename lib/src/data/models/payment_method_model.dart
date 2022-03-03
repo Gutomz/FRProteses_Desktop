@@ -12,14 +12,17 @@ abstract class PaymentMethodModel extends PaymentMethodEntity {
     switch (paymentMethodEntity.type) {
       case PaymentMethodType.check:
         return CheckPaymentMethodModel.copyFrom(
-            paymentMethodEntity as CheckPaymentMethodEntity);
+          paymentMethodEntity as CheckPaymentMethodEntity,
+        );
       case PaymentMethodType.preCheck:
         return PreCheckPaymentMethodModel.copyFrom(
-            paymentMethodEntity as PreCheckPaymentMethodEntity);
+          paymentMethodEntity as PreCheckPaymentMethodEntity,
+        );
       case PaymentMethodType.money:
       default:
         return MoneyPaymentMethodModel.copyFrom(
-            paymentMethodEntity as MoneyPaymentMethodEntity);
+          paymentMethodEntity as MoneyPaymentMethodEntity,
+        );
     }
   }
 

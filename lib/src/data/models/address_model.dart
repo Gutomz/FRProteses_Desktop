@@ -27,11 +27,11 @@ class AddressModel extends AddressEntity {
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
-      cep: json["cep"],
-      street: json["street"],
-      neighborhood: json["neighborhood"],
-      city: json["city"],
-      state: json["state"],
+      cep: json["cep"] as String,
+      street: json["street"] as String,
+      neighborhood: json["neighborhood"] as String,
+      city: json["city"] as String,
+      state: json["state"] as String,
     );
   }
 

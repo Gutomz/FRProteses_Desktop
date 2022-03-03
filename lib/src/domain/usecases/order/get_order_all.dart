@@ -11,6 +11,6 @@ class GetOrderAll implements UseCase<List<OrderEntity>, NoParams> {
 
   @override
   Future<Either<Failure, List<OrderEntity>>> call(NoParams params) async {
-    return await orderRepository.getOrderAll();
+    return orderRepository.getOrderAll();
   }
 }

@@ -9,6 +9,6 @@ class GetProviderById {
   GetProviderById(this.providerRepository);
 
   Future<Either<Failure, ProviderEntity>> call(int id) async {
-    return await providerRepository.getProviderById(id);
+    return providerRepository.getProviderById(id);
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:collection/collection.dart';
+import 'package:frproteses/src/core/errors/exception.dart';
 import 'package:frproteses/src/data/models/customer_model.dart';
 
 abstract class ICustomerLocalDataSource {
@@ -31,9 +31,12 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
   Future<List<CustomerModel>> getCustomerAll() async {
     try {
       final lines = customerFile.readAsLinesSync();
-      List<CustomerModel> customers = lines
-          .map((line) =>
-              CustomerModel.fromJson(json.decode(line.replaceAll("\n", ""))))
+      final customers = lines
+          .map(
+            (line) => CustomerModel.fromJson(
+              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
+            ),
+          )
           .toList();
 
       return customers;
@@ -67,14 +70,14 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
       models[index] = customerModel;
     }
 
-    final lines = models.map((e) => e.toJson().toString() + "\n").toList();
-    String content = "";
+    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final content = StringBuffer();
     for (final line in lines) {
-      content += line;
+      content.write(line);
     }
 
     try {
-      customerFile.writeAsStringSync(content);
+      customerFile.writeAsStringSync(content.toString());
       return customerModel;
     } on FileSystemException {
       throw LocalException();
