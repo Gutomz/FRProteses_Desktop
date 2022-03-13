@@ -12,9 +12,9 @@ class CustomerRepositoryImpl implements ICustomerRepository {
   CustomerRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<CustomerEntity>>> getCustomerAll() async {
+  Future<Either<Failure, List<CustomerEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getCustomerAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class CustomerRepositoryImpl implements ICustomerRepository {
   }
 
   @override
-  Future<Either<Failure, CustomerEntity>> getCustomerById(int id) async {
+  Future<Either<Failure, CustomerEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getCustomerById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,13 +32,23 @@ class CustomerRepositoryImpl implements ICustomerRepository {
   }
 
   @override
-  Future<Either<Failure, CustomerEntity>> setCustomer(
+  Future<Either<Failure, CustomerEntity>> set(
     CustomerEntity customerEntity,
   ) async {
     try {
-      final model = await localDataSource
-          .setCustomer(CustomerModel.copyFrom(customerEntity));
+      final model =
+          await localDataSource.set(CustomerModel.copyFrom(customerEntity));
       return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
     } on LocalException {
       return Left(LocalFailure());
     }

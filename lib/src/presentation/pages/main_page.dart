@@ -16,17 +16,24 @@ class MainPage extends StatelessWidget {
       backgroundColor: Theme.of(context).canvasColor,
       appBar: topNavigationBar(context, scaffoldKey),
       drawer: Drawer(child: Menu()),
-      body: ResponsiveWidget(
-        largeScreenWidget: Row(
-          children: [
-            Expanded(child: Menu()),
-            Expanded(
-              flex: 5,
-              child: localNavigator(),
-            )
-          ],
+      body: Container(
+        color: Theme.of(context).backgroundColor,
+        child: ResponsiveWidget(
+          largeScreenWidget: Row(
+            children: [
+              Expanded(child: Menu()),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: localNavigator(),
+                ),
+              )
+            ],
+          ),
+          smallScreenWidget: localNavigator(),
         ),
-        smallScreenWidget: localNavigator(),
       ),
     );
   }

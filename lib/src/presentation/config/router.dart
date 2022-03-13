@@ -1,6 +1,10 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'package:flutter/material.dart';
 import 'package:frproteses/src/presentation/config/routes.dart';
-import 'package:frproteses/src/presentation/pages/customers/customer_page.dart';
+import 'package:frproteses/src/presentation/pages/customers/customers_page.dart';
+import 'package:frproteses/src/presentation/pages/customers/sub_pages/edit/customer_edit_page.dart';
+import 'package:frproteses/src/presentation/pages/customers/sub_pages/filter_selection/customer_filter_selection_page.dart';
 import 'package:frproteses/src/presentation/pages/orders/orders_page.dart';
 import 'package:frproteses/src/presentation/pages/overview/overview_page.dart';
 import 'package:frproteses/src/presentation/pages/payments/payments_page.dart';
@@ -8,23 +12,55 @@ import 'package:frproteses/src/presentation/pages/products/products_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/providers_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
+  final Widget page;
   switch (settings.name) {
     case customerPageRoute:
-      return _getPageRoute(CustomersPage());
+      page = CustomersPage();
+      break;
+
+    case customerEditPageRoute:
+      final args = settings.arguments;
+      // if (args == null || args is! CustomerEditPageArguments) throw Exception();
+      assert(
+        args != null && args is CustomerEditPageArguments,
+        "CustomerEditPage requires CustomerEditPageArguments as Parameters",
+      );
+      page = CustomerEditPage(arguments: args as CustomerEditPageArguments);
+      break;
+
+    case customerFilterSelectionPageRoute:
+      final args = settings.arguments;
+      assert(args != null && args is CustomerFilterSelectionPageArguments,
+          "CustomerFilterSelectionPage requires CustomerFilterSelectionPageArguments as Parameters");
+      page = CustomerFilterSelectionPage(
+          arguments: args as CustomerFilterSelectionPageArguments);
+      break;
+
     case providerPageRoute:
-      return _getPageRoute(ProvidersPage());
+      page = ProvidersPage();
+      break;
+
     case productPageRoute:
-      return _getPageRoute(ProductsPage());
+      page = ProductsPage();
+      break;
+
     case orderPageRoute:
-      return _getPageRoute(OrdersPage());
+      page = OrdersPage();
+      break;
+
     case paymentPageRoute:
-      return _getPageRoute(PaymentsPage());
+      page = PaymentsPage();
+      break;
+
     case overviewPageRoute:
     default:
-      return _getPageRoute(OverviewPage());
+      page = OverviewPage();
+      break;
   }
+
+  return _getPageRoute(page, settings);
 }
 
-PageRoute _getPageRoute(Widget child) {
-  return MaterialPageRoute(builder: (context) => child);
+PageRoute _getPageRoute(Widget child, RouteSettings settings) {
+  return MaterialPageRoute(builder: (context) => child, settings: settings);
 }
