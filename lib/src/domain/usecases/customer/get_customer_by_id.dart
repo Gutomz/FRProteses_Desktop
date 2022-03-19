@@ -14,7 +14,7 @@ class GetCustomerById
   Future<Either<Failure, CustomerEntity>> call(
     GetCustomerByIdParams params,
   ) async {
-    return customerRepository.getCustomerById(params.id);
+    return customerRepository.getById(params.id);
   }
 }
 

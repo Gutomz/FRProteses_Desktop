@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/injection_container.dart';
-import 'package:frproteses/src/presentation/config/style.dart';
 import 'package:frproteses/src/presentation/stores/menu_store.dart';
 
 class MenuIcon extends StatelessWidget {

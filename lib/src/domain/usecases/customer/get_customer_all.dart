@@ -11,6 +11,6 @@ class GetCustomerAll implements UseCase<List<CustomerEntity>, NoParams> {
 
   @override
   Future<Either<Failure, List<CustomerEntity>>> call(NoParams params) async {
-    return customerRepository.getCustomerAll();
+    return customerRepository.getAll();
   }
 }

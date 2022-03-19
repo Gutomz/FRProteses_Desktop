@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frproteses/injection_container.dart';
 import 'package:frproteses/src/presentation/config/routes.dart';
-import 'package:frproteses/src/presentation/config/style.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
 import 'package:frproteses/src/presentation/stores/menu_store.dart';
 import 'package:frproteses/src/presentation/stores/navigation_store.dart';
@@ -18,7 +17,7 @@ class Menu extends StatelessWidget {
     final _width = MediaQuery.of(context).size.width;
 
     return Container(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).canvasColor,
       child: ListView(
         children: [
           if (ResponsiveWidget.isSmallScreen(context))
@@ -53,22 +52,12 @@ class Menu extends StatelessWidget {
             ),
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: routes
+            children: mainRoutes
                 .map(
                   (itemName) => MenuItem(
                     itemName: itemName,
                     icon: _getIconDataFor(itemName),
-                    onTap: () {
-                      if (!_menuStore.isActive(itemName)) {
-                        _menuStore.changeActiveItemTo(itemName);
-
-                        if (ResponsiveWidget.isSmallScreen(context)) {
-                          Navigator.of(context).pop();
-                        }
-
-                        _navigationStore.navigateTo(itemName);
-                      }
-                    },
+                    onTap: () => _onTapMenuItem(context, itemName),
                   ),
                 )
                 .toList(),
@@ -93,6 +82,18 @@ class Menu extends StatelessWidget {
       case overviewPageRoute:
       default:
         return Icons.home;
+    }
+  }
+
+  void _onTapMenuItem(BuildContext context, String itemName) {
+    if (!_menuStore.isActive(itemName)) {
+      _menuStore.changeActiveItemTo(itemName);
+
+      if (ResponsiveWidget.isSmallScreen(context)) {
+        Navigator.of(context).pop();
+      }
+
+      _navigationStore.navigateTo(itemName);
     }
   }
 }

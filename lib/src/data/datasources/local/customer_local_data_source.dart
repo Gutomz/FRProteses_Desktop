@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -9,17 +8,22 @@ abstract class ICustomerLocalDataSource {
   /// Create or Update customer locally
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<CustomerModel> setCustomer(CustomerModel customerModel);
+  Future<CustomerModel> set(CustomerModel customerModel);
 
   /// Find customer by id
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<CustomerModel> getCustomerById(int id);
+  Future<CustomerModel> getById(int id);
 
   /// Get list of all registered customers
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<List<CustomerModel>> getCustomerAll();
+  Future<List<CustomerModel>> getAll();
+
+  /// Get next id for new customer
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<int> getNextId();
 }
 
 class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
@@ -28,15 +32,15 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
   CustomerLocalDataSourceImpl({required this.customerFile});
 
   @override
-  Future<List<CustomerModel>> getCustomerAll() async {
+  Future<List<CustomerModel>> getAll() async {
     try {
+      if (!customerFile.existsSync()) {
+        return List.empty(growable: true);
+      }
+
       final lines = customerFile.readAsLinesSync();
       final customers = lines
-          .map(
-            (line) => CustomerModel.fromJson(
-              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
-            ),
-          )
+          .map((line) => CustomerModel.fromString(line.replaceAll("\n", "")))
           .toList();
 
       return customers;
@@ -46,8 +50,8 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
   }
 
   @override
-  Future<CustomerModel> getCustomerById(int id) async {
-    final models = await getCustomerAll();
+  Future<CustomerModel> getById(int id) async {
+    final models = await getAll();
     final model = models.firstWhereOrNull((element) => element.id == id);
 
     if (model == null) {
@@ -58,8 +62,8 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
   }
 
   @override
-  Future<CustomerModel> setCustomer(CustomerModel customerModel) async {
-    final models = await getCustomerAll();
+  Future<CustomerModel> set(CustomerModel customerModel) async {
+    final models = await getAll();
     final model =
         models.firstWhereOrNull((element) => element.id == customerModel.id);
 
@@ -70,10 +74,10 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
       models[index] = customerModel;
     }
 
-    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final lines = models.map((e) => e.toString()).toList();
     final content = StringBuffer();
     for (final line in lines) {
-      content.write(line);
+      content.write("$line\n");
     }
 
     try {
@@ -82,5 +86,16 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
     } on FileSystemException {
       throw LocalException();
     }
+  }
+
+  @override
+  Future<int> getNextId() async {
+    final models = await getAll();
+
+    if (models.isEmpty) {
+      return 1;
+    }
+
+    return models.last.id + 1;
   }
 }

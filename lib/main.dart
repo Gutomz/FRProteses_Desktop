@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:frproteses/injection_container.dart' as ic;
 import 'package:frproteses/src/presentation/config/style.dart';
 import 'package:frproteses/src/presentation/pages/main_page.dart';
@@ -19,6 +20,14 @@ class MyApp extends StatelessWidget {
       title: 'FRPróteses',
       theme: getLiteTheme(),
       home: MainPage(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("pt", 'BR'),
+      ],
     );
   }
 }
