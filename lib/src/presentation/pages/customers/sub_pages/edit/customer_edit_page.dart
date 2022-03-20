@@ -1,3 +1,4 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/injection_container.dart';
@@ -23,9 +24,9 @@ class CustomerEditPage extends StatelessWidget {
   final TextEditingController nameFieldController;
   final TextEditingController lastNameFieldController;
   final TextEditingController emailFieldController;
-  final TextEditingController documentNameFieldController;
-  final TextEditingController phoneFieldController;
-  final TextEditingController cepFieldController;
+  final MaskedTextController documentNameFieldController;
+  final MaskedTextController phoneFieldController;
+  final MaskedTextController cepFieldController;
   final TextEditingController streetFieldController;
   final TextEditingController neighborhoodFieldController;
   final TextEditingController cityFieldController;
@@ -43,12 +44,17 @@ class CustomerEditPage extends StatelessWidget {
             TextEditingController(text: arguments.customerEntity.lastName),
         emailFieldController =
             TextEditingController(text: arguments.customerEntity.email),
-        documentNameFieldController =
-            TextEditingController(text: arguments.customerEntity.document),
-        phoneFieldController =
-            TextEditingController(text: arguments.customerEntity.phone),
-        cepFieldController = TextEditingController(
+        documentNameFieldController = MaskedTextController(
+          text: arguments.customerEntity.document,
+          mask: "000.000.000-00",
+        ),
+        phoneFieldController = MaskedTextController(
+          text: arguments.customerEntity.phone,
+          mask: "(00) 9 0000-0000",
+        ),
+        cepFieldController = MaskedTextController(
           text: arguments.customerEntity.addressEntity.cep,
+          mask: "00000-000",
         ),
         streetFieldController = TextEditingController(
           text: arguments.customerEntity.addressEntity.street,
