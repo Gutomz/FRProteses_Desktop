@@ -1,16 +1,24 @@
 import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/failure.dart';
+import 'package:frproteses/src/core/usecases/usecases.dart';
 import 'package:frproteses/src/domain/entities/provider_entity.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
 
-class SetProvider {
+class SetProvider implements UseCase<ProviderEntity, SetProviderParams> {
   final IProviderRepository providerRepository;
 
   SetProvider(this.providerRepository);
 
+  @override
   Future<Either<Failure, ProviderEntity>> call(
-    ProviderEntity providerEntity,
+    SetProviderParams params,
   ) async {
-    return providerRepository.setProvider(providerEntity);
+    return providerRepository.set(params.providerEntity);
   }
+}
+
+class SetProviderParams {
+  ProviderEntity providerEntity;
+
+  SetProviderParams(this.providerEntity);
 }

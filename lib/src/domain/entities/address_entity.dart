@@ -12,4 +12,14 @@ class AddressEntity {
     required this.city,
     required this.state,
   });
+
+  factory AddressEntity.empty() {
+    return AddressEntity(
+      cep: "",
+      street: "",
+      neighborhood: "",
+      city: "",
+      state: "",
+    );
+  }
 }
