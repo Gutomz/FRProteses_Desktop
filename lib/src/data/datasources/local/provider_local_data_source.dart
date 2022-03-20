@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
@@ -9,17 +8,22 @@ abstract class IProviderLocalDataSource {
   /// Create or Update provider locally
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<ProviderModel> setProvider(ProviderModel providerModel);
+  Future<ProviderModel> set(ProviderModel providerModel);
 
   /// Find provider by id
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<ProviderModel> getProviderById(int id);
+  Future<ProviderModel> getById(int id);
 
   /// Get list of all registered providers
   ///
   /// Throws a [LocalException] for all error codes.
-  Future<List<ProviderModel>> getProviderAll();
+  Future<List<ProviderModel>> getAll();
+
+  /// Get next id for new provider
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<int> getNextId();
 }
 
 class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
@@ -28,15 +32,15 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
   ProviderLocalDataSourceImpl({required this.providerFile});
 
   @override
-  Future<List<ProviderModel>> getProviderAll() async {
+  Future<List<ProviderModel>> getAll() async {
     try {
+      if (!providerFile.existsSync()) {
+        return List.empty(growable: true);
+      }
+
       final lines = providerFile.readAsLinesSync();
       final providers = lines
-          .map(
-            (line) => ProviderModel.fromJson(
-              json.decode(line.replaceAll("\n", "")) as Map<String, dynamic>,
-            ),
-          )
+          .map((line) => ProviderModel.fromString(line.replaceAll("\n", "")))
           .toList();
 
       return providers;
@@ -46,8 +50,8 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
   }
 
   @override
-  Future<ProviderModel> getProviderById(int id) async {
-    final models = await getProviderAll();
+  Future<ProviderModel> getById(int id) async {
+    final models = await getAll();
     final model = models.firstWhereOrNull((element) => element.id == id);
 
     if (model == null) {
@@ -58,8 +62,8 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
   }
 
   @override
-  Future<ProviderModel> setProvider(ProviderModel providerModel) async {
-    final models = await getProviderAll();
+  Future<ProviderModel> set(ProviderModel providerModel) async {
+    final models = await getAll();
     final model =
         models.firstWhereOrNull((element) => element.id == providerModel.id);
 
@@ -70,10 +74,10 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
       models[index] = providerModel;
     }
 
-    final lines = models.map((e) => "${e.toJson().toString()}\n").toList();
+    final lines = models.map((e) => e.toString()).toList();
     final content = StringBuffer();
     for (final line in lines) {
-      content.write(line);
+      content.write("$line\n");
     }
 
     try {
@@ -82,5 +86,16 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
     } on FileSystemException {
       throw LocalException();
     }
+  }
+
+  @override
+  Future<int> getNextId() async {
+    final models = await getAll();
+
+    if (models.isEmpty) {
+      return 1;
+    }
+
+    return models.last.id + 1;
   }
 }

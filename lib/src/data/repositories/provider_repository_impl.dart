@@ -12,9 +12,9 @@ class ProviderRepositoryImpl implements IProviderRepository {
   ProviderRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<ProviderEntity>>> getProviderAll() async {
+  Future<Either<Failure, List<ProviderEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getProviderAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class ProviderRepositoryImpl implements IProviderRepository {
   }
 
   @override
-  Future<Either<Failure, ProviderEntity>> getProviderById(int id) async {
+  Future<Either<Failure, ProviderEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getProviderById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,13 +32,23 @@ class ProviderRepositoryImpl implements IProviderRepository {
   }
 
   @override
-  Future<Either<Failure, ProviderEntity>> setProvider(
+  Future<Either<Failure, ProviderEntity>> set(
     ProviderEntity providerEntity,
   ) async {
     try {
-      final model = await localDataSource
-          .setProvider(ProviderModel.copyFrom(providerEntity));
+      final model =
+          await localDataSource.set(ProviderModel.copyFrom(providerEntity));
       return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
     } on LocalException {
       return Left(LocalFailure());
     }

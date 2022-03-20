@@ -21,17 +21,13 @@ class CustomersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ResponsiveWidget(
-          largeScreenWidget: CustomersLargeScreenPage(
-            store: _store,
-            onPressedCreate: _onPressedCreate,
-            onPressedEdit: _onPressedEdit,
-            onPressedFilters: () => _onPressedFilters(context),
-          ),
-        ),
-      ],
+    return ResponsiveWidget(
+      largeScreenWidget: CustomersLargeScreenPage(
+        store: _store,
+        onPressedCreate: _onPressedCreate,
+        onPressedEdit: _onPressedEdit,
+        onPressedFilters: () => _onPressedFilters(context),
+      ),
     );
   }
 

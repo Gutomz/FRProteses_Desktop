@@ -29,13 +29,7 @@ class CustomerEntity {
       phone: "",
       email: "",
       document: "",
-      addressEntity: AddressEntity(
-        cep: "",
-        street: "",
-        neighborhood: "",
-        city: "",
-        state: "",
-      ),
+      addressEntity: AddressEntity.empty(),
       notes: "",
     );
   }

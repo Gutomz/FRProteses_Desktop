@@ -10,6 +10,8 @@ import 'package:frproteses/src/presentation/pages/overview/overview_page.dart';
 import 'package:frproteses/src/presentation/pages/payments/payments_page.dart';
 import 'package:frproteses/src/presentation/pages/products/products_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/providers_page.dart';
+import 'package:frproteses/src/presentation/pages/providers/sub_pages/edit/provider_edit_page.dart';
+import 'package:frproteses/src/presentation/pages/providers/sub_pages/filter_selection/provider_filter_selection_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   final Widget page;
@@ -20,7 +22,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case customerEditPageRoute:
       final args = settings.arguments;
-      // if (args == null || args is! CustomerEditPageArguments) throw Exception();
       assert(
         args != null && args is CustomerEditPageArguments,
         "CustomerEditPage requires CustomerEditPageArguments as Parameters",
@@ -38,6 +39,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case providerPageRoute:
       page = ProvidersPage();
+      break;
+
+    case providerEditPageRoute:
+      final args = settings.arguments;
+      assert(
+        args != null && args is ProviderEditPageArguments,
+        "ProviderEditPage requires ProviderEditPageArguments as Parameters",
+      );
+      page = ProviderEditPage(arguments: args as ProviderEditPageArguments);
+      break;
+
+    case providerFilterSelectionPageRoute:
+      final args = settings.arguments;
+      assert(args != null && args is ProviderFilterSelectionPageArguments,
+          "ProviderFilterSelectionPage requires ProviderFilterSelectionPageArguments as Parameters");
+      page = ProviderFilterSelectionPage(
+          arguments: args as ProviderFilterSelectionPageArguments);
       break;
 
     case productPageRoute:
