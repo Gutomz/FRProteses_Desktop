@@ -9,6 +9,8 @@ const String providerEditPageRoute = "Editar Fornecedor";
 const String providerFilterSelectionPageRoute = "Filtrar Fornecedores";
 
 const String productPageRoute = "Produtos";
+const String productEditPageRoute = "Editar Produto";
+const String productFilterSelectionPageRoute = "Filtrar Produtos";
 
 const String orderPageRoute = "Pedidos";
 

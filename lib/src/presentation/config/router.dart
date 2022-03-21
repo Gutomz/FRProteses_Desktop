@@ -9,6 +9,8 @@ import 'package:frproteses/src/presentation/pages/orders/orders_page.dart';
 import 'package:frproteses/src/presentation/pages/overview/overview_page.dart';
 import 'package:frproteses/src/presentation/pages/payments/payments_page.dart';
 import 'package:frproteses/src/presentation/pages/products/products_page.dart';
+import 'package:frproteses/src/presentation/pages/products/sub_pages/edit/product_edit_page.dart';
+import 'package:frproteses/src/presentation/pages/products/sub_pages/filter_selection/product_filter_selection_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/providers_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/sub_pages/edit/provider_edit_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/sub_pages/filter_selection/provider_filter_selection_page.dart';
@@ -60,6 +62,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case productPageRoute:
       page = ProductsPage();
+      break;
+
+    case productEditPageRoute:
+      final args = settings.arguments;
+      assert(
+        args != null && args is ProductEditPageArguments,
+        "ProductEditPage requires ProductEditPageArguments as Parameters",
+      );
+      page = ProductEditPage(arguments: args as ProductEditPageArguments);
+      break;
+
+    case productFilterSelectionPageRoute:
+      final args = settings.arguments;
+      assert(args != null && args is ProductFilterSelectionPageArguments,
+          "ProductFilterSelectionPage requires ProductFilterSelectionPageArguments as Parameters");
+      page = ProductFilterSelectionPage(
+          arguments: args as ProductFilterSelectionPageArguments);
       break;
 
     case orderPageRoute:

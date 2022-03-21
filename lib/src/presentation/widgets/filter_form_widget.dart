@@ -31,7 +31,13 @@ class FilterFormWidget extends StatelessWidget {
                 ),
               ],
             ),
-            ...children
+            SizedBox(height: 15),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: children,
+              ),
+            ),
           ],
         ),
       ),

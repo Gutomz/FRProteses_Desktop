@@ -3,10 +3,12 @@ import 'dart:io';
 const String _dataFolder = "database\\";
 const String _customerFileName = "customers.txt";
 const String _providerFileName = "providers.txt";
+const String _productFileName = "products.txt";
 
 enum LocalFileType {
   customerFile,
   providerFile,
+  productFile,
 }
 
 File getLocalFile(LocalFileType fileType) {
@@ -17,6 +19,9 @@ File getLocalFile(LocalFileType fileType) {
       break;
     case LocalFileType.providerFile:
       file = _getDataFile(_providerFileName);
+      break;
+    case LocalFileType.productFile:
+      file = _getDataFile(_productFileName);
       break;
     default:
       throw FileSystemException();
