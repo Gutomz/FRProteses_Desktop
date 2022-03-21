@@ -12,9 +12,9 @@ class ProductRepositoryImpl implements IProductRepository {
   ProductRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProductAll() async {
+  Future<Either<Failure, List<ProductEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getProductAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class ProductRepositoryImpl implements IProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductEntity>> getProductById(int id) async {
+  Future<Either<Failure, ProductEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getProductById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,13 +32,23 @@ class ProductRepositoryImpl implements IProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductEntity>> setProduct(
+  Future<Either<Failure, ProductEntity>> set(
     ProductEntity productEntity,
   ) async {
     try {
-      final model = await localDataSource
-          .setProduct(ProductModel.copyFrom(productEntity));
+      final model =
+          await localDataSource.set(ProductModel.copyFrom(productEntity));
       return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
     } on LocalException {
       return Left(LocalFailure());
     }

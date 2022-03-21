@@ -1,16 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/core/usecases/usecases.dart';
-import 'package:frproteses/src/domain/entities/product_entity.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 
-class GetProductAll implements UseCase<List<ProductEntity>, NoParams> {
+class GetProductNextId implements UseCase<int, NoParams> {
   final IProductRepository productRepository;
 
-  GetProductAll(this.productRepository);
+  GetProductNextId(this.productRepository);
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> call(NoParams params) async {
-    return productRepository.getAll();
+  Future<Either<Failure, int>> call(NoParams params) {
+    return productRepository.getNextId();
   }
 }

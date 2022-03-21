@@ -13,7 +13,7 @@ class GetProductById implements UseCase<ProductEntity, GetProductByIdParams> {
   Future<Either<Failure, ProductEntity>> call(
     GetProductByIdParams params,
   ) async {
-    return productRepository.getProductById(params.id);
+    return productRepository.getById(params.id);
   }
 }
 
