@@ -1,24 +1,29 @@
 import 'package:frproteses/src/config/local_files.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
 import 'package:frproteses/src/data/datasources/local/customer_local_data_source.dart';
+import 'package:frproteses/src/data/datasources/local/order_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/payment_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/product_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/provider_local_data_source.dart';
 import 'package:frproteses/src/data/repositories/customer_repository_impl.dart';
+import 'package:frproteses/src/data/repositories/order_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/payment_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/product_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/provider_repository_impl.dart';
 import 'package:frproteses/src/domain/repositories/customer_repository.dart';
+import 'package:frproteses/src/domain/repositories/order_repository.dart';
 import 'package:frproteses/src/domain/repositories/payment_repository.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
 import 'package:frproteses/src/domain/usecases/customer/index.dart';
+import 'package:frproteses/src/domain/usecases/order/index.dart';
 import 'package:frproteses/src/domain/usecases/payment/index.dart';
 import 'package:frproteses/src/domain/usecases/product/index.dart';
 import 'package:frproteses/src/domain/usecases/provider/index.dart';
 import 'package:frproteses/src/presentation/stores/customer_store.dart';
 import 'package:frproteses/src/presentation/stores/menu_store.dart';
 import 'package:frproteses/src/presentation/stores/navigation_store.dart';
+import 'package:frproteses/src/presentation/stores/order_store.dart';
 import 'package:frproteses/src/presentation/stores/payment_store.dart';
 import 'package:frproteses/src/presentation/stores/product_store.dart';
 import 'package:frproteses/src/presentation/stores/provider_store.dart';
@@ -93,6 +98,17 @@ void _initSrcStores() {
       getNextIdUseCase: sl(),
     ),
   );
+
+  sl.registerFactory(
+    () => OrderStore(
+      inputConverter: sl(),
+      getAllUseCase: sl(),
+      getByIdUseCase: sl(),
+      setUseCase: sl(),
+      getNextIdUseCase: sl(),
+      setCloseUseCase: sl(),
+    ),
+  );
 }
 
 void _initSrcUseCases() {
@@ -115,6 +131,12 @@ void _initSrcUseCases() {
   sl.registerLazySingleton(() => GetPaymentById(sl()));
   sl.registerLazySingleton(() => SetPayment(sl()));
   sl.registerLazySingleton(() => GetPaymentNextId(sl()));
+
+  sl.registerLazySingleton(() => GetOrderAll(sl()));
+  sl.registerLazySingleton(() => GetOrderById(sl()));
+  sl.registerLazySingleton(() => SetOrder(sl()));
+  sl.registerLazySingleton(() => GetOrderNextId(sl()));
+  sl.registerLazySingleton(() => SetOrderClose(sl()));
 }
 
 void _initSrcRepositories() {
@@ -138,6 +160,12 @@ void _initSrcRepositories() {
 
   sl.registerLazySingleton<IPaymentRepository>(
     () => PaymentRepositoryImpl(
+      localDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IOrderRepository>(
+    () => OrderRepositoryImpl(
       localDataSource: sl(),
     ),
   );
@@ -166,6 +194,14 @@ void _initSrcDataSources() {
     () => PaymentLocalDataSourceImpl(
       paymentFile: getLocalFile(LocalFileType.paymentFile),
       customerLocalDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IOrderLocalDataSource>(
+    () => OrderLocalDataSourceImpl(
+      orderFile: getLocalFile(LocalFileType.orderFile),
+      customerLocalDataSource: sl(),
+      productLocalDataSource: sl(),
     ),
   );
 }

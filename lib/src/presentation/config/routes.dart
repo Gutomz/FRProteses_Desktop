@@ -13,6 +13,8 @@ const String productEditPageRoute = "Editar Produto";
 const String productFilterSelectionPageRoute = "Filtrar Produtos";
 
 const String orderPageRoute = "Pedidos";
+const String orderEditPageRoute = "Editar Pedido";
+const String orderFilterSelectionPageRoute = "Filtrar Pedidos";
 
 const String paymentPageRoute = "Pagamentos";
 const String paymentEditPageRoute = "Editar Pagamento";

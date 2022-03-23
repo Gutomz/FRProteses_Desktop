@@ -3,7 +3,9 @@ import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 
 abstract class IOrderRepository {
-  Future<Either<Failure, OrderEntity>> setOrder(OrderEntity orderEntity);
-  Future<Either<Failure, List<OrderEntity>>> getOrderAll();
-  Future<Either<Failure, OrderEntity>> getOrderById(int id);
+  Future<Either<Failure, OrderEntity>> set(OrderEntity orderEntity);
+  Future<Either<Failure, List<OrderEntity>>> getAll();
+  Future<Either<Failure, OrderEntity>> getById(int id);
+  Future<Either<Failure, int>> getNextId();
+  Future<Either<Failure, OrderEntity>> setClose(int id);
 }
