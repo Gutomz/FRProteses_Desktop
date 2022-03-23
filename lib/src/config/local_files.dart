@@ -4,11 +4,13 @@ const String _dataFolder = "database\\";
 const String _customerFileName = "customers.txt";
 const String _providerFileName = "providers.txt";
 const String _productFileName = "products.txt";
+const String _paymentFileName = "payments.txt";
 
 enum LocalFileType {
   customerFile,
   providerFile,
   productFile,
+  paymentFile,
 }
 
 File getLocalFile(LocalFileType fileType) {
@@ -22,6 +24,9 @@ File getLocalFile(LocalFileType fileType) {
       break;
     case LocalFileType.productFile:
       file = _getDataFile(_productFileName);
+      break;
+    case LocalFileType.paymentFile:
+      file = _getDataFile(_paymentFileName);
       break;
     default:
       throw FileSystemException();

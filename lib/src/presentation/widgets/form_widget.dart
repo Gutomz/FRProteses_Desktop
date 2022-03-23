@@ -21,7 +21,7 @@ class FormWidget extends StatelessWidget {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.all(cardPadding),
+        padding: EdgeInsets.all(kCardPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,7 +35,7 @@ class FormWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            SizedBox(height: kFormLineSpacing),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

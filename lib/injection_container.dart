@@ -1,20 +1,25 @@
 import 'package:frproteses/src/config/local_files.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
 import 'package:frproteses/src/data/datasources/local/customer_local_data_source.dart';
+import 'package:frproteses/src/data/datasources/local/payment_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/product_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/provider_local_data_source.dart';
 import 'package:frproteses/src/data/repositories/customer_repository_impl.dart';
+import 'package:frproteses/src/data/repositories/payment_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/product_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/provider_repository_impl.dart';
 import 'package:frproteses/src/domain/repositories/customer_repository.dart';
+import 'package:frproteses/src/domain/repositories/payment_repository.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
 import 'package:frproteses/src/domain/usecases/customer/index.dart';
+import 'package:frproteses/src/domain/usecases/payment/index.dart';
 import 'package:frproteses/src/domain/usecases/product/index.dart';
 import 'package:frproteses/src/domain/usecases/provider/index.dart';
 import 'package:frproteses/src/presentation/stores/customer_store.dart';
 import 'package:frproteses/src/presentation/stores/menu_store.dart';
 import 'package:frproteses/src/presentation/stores/navigation_store.dart';
+import 'package:frproteses/src/presentation/stores/payment_store.dart';
 import 'package:frproteses/src/presentation/stores/product_store.dart';
 import 'package:frproteses/src/presentation/stores/provider_store.dart';
 import 'package:get_it/get_it.dart';
@@ -78,6 +83,16 @@ void _initSrcStores() {
       getNextIdUseCase: sl(),
     ),
   );
+
+  sl.registerFactory(
+    () => PaymentStore(
+      inputConverter: sl(),
+      getAllUseCase: sl(),
+      getByIdUseCase: sl(),
+      setUseCase: sl(),
+      getNextIdUseCase: sl(),
+    ),
+  );
 }
 
 void _initSrcUseCases() {
@@ -95,6 +110,11 @@ void _initSrcUseCases() {
   sl.registerLazySingleton(() => GetProductById(sl()));
   sl.registerLazySingleton(() => SetProduct(sl()));
   sl.registerLazySingleton(() => GetProductNextId(sl()));
+
+  sl.registerLazySingleton(() => GetPaymentAll(sl()));
+  sl.registerLazySingleton(() => GetPaymentById(sl()));
+  sl.registerLazySingleton(() => SetPayment(sl()));
+  sl.registerLazySingleton(() => GetPaymentNextId(sl()));
 }
 
 void _initSrcRepositories() {
@@ -112,6 +132,12 @@ void _initSrcRepositories() {
 
   sl.registerLazySingleton<IProductRepository>(
     () => ProductRepositoryImpl(
+      localDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IPaymentRepository>(
+    () => PaymentRepositoryImpl(
       localDataSource: sl(),
     ),
   );
@@ -133,6 +159,13 @@ void _initSrcDataSources() {
   sl.registerLazySingleton<IProductLocalDataSource>(
     () => ProductLocalDataSourceImpl(
       productFile: getLocalFile(LocalFileType.productFile),
+    ),
+  );
+
+  sl.registerLazySingleton<IPaymentLocalDataSource>(
+    () => PaymentLocalDataSourceImpl(
+      paymentFile: getLocalFile(LocalFileType.paymentFile),
+      customerLocalDataSource: sl(),
     ),
   );
 }

@@ -12,9 +12,12 @@ class UnderlinedTextField extends StatelessWidget {
   final int? maxLength;
   final TextCapitalization textCapitalization;
   final bool obscureText;
+  final bool readOnly;
 
   final Function(String)? onChanged;
   final Function()? onEditingComplete;
+  final Function()? onTap;
+  final Function(String)? onSubmitted;
 
   UnderlinedTextField({
     Key? key,
@@ -31,6 +34,9 @@ class UnderlinedTextField extends StatelessWidget {
     this.maxLength,
     this.textCapitalization = TextCapitalization.none,
     this.obscureText = false,
+    this.readOnly = false,
+    this.onTap,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -41,6 +47,13 @@ class UnderlinedTextField extends StatelessWidget {
       keyboardType: keyboardType,
       maxLength: maxLength,
       textCapitalization: textCapitalization,
+      obscureText: obscureText,
+      onChanged: onChanged,
+      onEditingComplete: onEditingComplete,
+      textInputAction: textInputAction,
+      readOnly: readOnly,
+      onTap: onTap,
+      onSubmitted: onSubmitted,
       style: enabled != false
           ? null
           : Theme.of(context).textTheme.subtitle1?.copyWith(
@@ -70,10 +83,6 @@ class UnderlinedTextField extends StatelessWidget {
         fillColor: Colors.transparent,
         suffixIcon: suffixIcon,
       ),
-      obscureText: obscureText,
-      onChanged: onChanged,
-      onEditingComplete: onEditingComplete,
-      textInputAction: textInputAction,
     );
   }
 }

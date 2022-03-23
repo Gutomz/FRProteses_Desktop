@@ -2,19 +2,19 @@ import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/core/usecases/usecases.dart';
 import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
-import 'package:frproteses/src/domain/entities/product_entity.dart';
-import 'package:frproteses/src/domain/usecases/product/index.dart';
+import 'package:frproteses/src/domain/entities/payment_entity.dart';
+import 'package:frproteses/src/domain/usecases/payment/index.dart';
 import 'package:mobx/mobx.dart';
-part 'product_store.g.dart';
+part 'payment_store.g.dart';
 
-class ProductStore = _ProductStoreBase with _$ProductStore;
+class PaymentStore = _PaymentStoreBase with _$PaymentStore;
 
-abstract class _ProductStoreBase with Store {
+abstract class _PaymentStoreBase with Store {
   final InputConverter _inputConverter;
-  final GetProductAll _getAllUseCase;
-  final GetProductById _getByIdUseCase;
-  final SetProduct _setUseCase;
-  final GetProductNextId _getNextIdUseCase;
+  final GetPaymentAll _getAllUseCase;
+  final GetPaymentById _getByIdUseCase;
+  final SetPayment _setUseCase;
+  final GetPaymentNextId _getNextIdUseCase;
 
   @observable
   String _errorMessage = "";
@@ -22,12 +22,12 @@ abstract class _ProductStoreBase with Store {
   @observable
   bool _loading = false;
 
-  _ProductStoreBase({
+  _PaymentStoreBase({
     required InputConverter inputConverter,
-    required GetProductAll getAllUseCase,
-    required GetProductById getByIdUseCase,
-    required SetProduct setUseCase,
-    required GetProductNextId getNextIdUseCase,
+    required GetPaymentAll getAllUseCase,
+    required GetPaymentById getByIdUseCase,
+    required SetPayment setUseCase,
+    required GetPaymentNextId getNextIdUseCase,
   })  : _inputConverter = inputConverter,
         _getAllUseCase = getAllUseCase,
         _getByIdUseCase = getByIdUseCase,
@@ -38,7 +38,7 @@ abstract class _ProductStoreBase with Store {
   void _setErrorMessage(Failure? failure) {
     switch (failure.runtimeType) {
       case LocalFailure:
-        _errorMessage = "Ocorreu um erro ao carregar o arquivo de Produtos.";
+        _errorMessage = "Ocorreu um erro ao carregar o arquivo de Pagamentos.";
         break;
       default:
         _errorMessage = "Ocorreu um erro inesperado.";
@@ -53,7 +53,7 @@ abstract class _ProductStoreBase with Store {
   void _stopLoading() => _loading = false;
 
   @action
-  Future<List<ProductEntity>?> getAll() async {
+  Future<List<PaymentEntity>?> getAll() async {
     _startLoading();
     final options = await _getAllUseCase(NoParams());
     _stopLoading();
@@ -67,10 +67,10 @@ abstract class _ProductStoreBase with Store {
   }
 
   @action
-  Future<ProductEntity?> getById(String providerId) async {
+  Future<PaymentEntity?> getById(String customerId) async {
     _startLoading();
     final conversionOptions =
-        _inputConverter.stringToUnsignedInteger(providerId);
+        _inputConverter.stringToUnsignedInteger(customerId);
 
     if (conversionOptions.isLeft()) {
       _setErrorMessage(conversionOptions.asLeft());
@@ -79,7 +79,7 @@ abstract class _ProductStoreBase with Store {
     }
 
     final options = await _getByIdUseCase(
-      GetProductByIdParams(conversionOptions.asRight()),
+      GetPaymentByIdParams(conversionOptions.asRight()),
     );
     _stopLoading();
 
@@ -92,9 +92,9 @@ abstract class _ProductStoreBase with Store {
   }
 
   @action
-  Future<ProductEntity?> set(ProductEntity providerEntity) async {
+  Future<PaymentEntity?> set(PaymentEntity customerEntity) async {
     _startLoading();
-    final options = await _setUseCase(SetProductParams(providerEntity));
+    final options = await _setUseCase(SetPaymentParams(customerEntity));
     _stopLoading();
 
     if (options.isLeft()) {

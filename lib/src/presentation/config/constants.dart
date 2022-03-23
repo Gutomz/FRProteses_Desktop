@@ -3,4 +3,5 @@ class FieldErrorMessages {
   static const String invalidField = "Campo inválido!";
 }
 
-const double cardPadding = 16;
+const double kCardPadding = 16;
+const double kFormLineSpacing = 15;

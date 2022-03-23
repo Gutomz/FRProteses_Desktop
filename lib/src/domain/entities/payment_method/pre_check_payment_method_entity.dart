@@ -3,10 +3,10 @@ import 'package:frproteses/src/domain/entities/payment_method_entity.dart';
 
 class PreCheckPaymentMethodEntity extends PaymentMethodEntity {
   String number;
-  String dayFor;
+  String goodForDate;
 
   PreCheckPaymentMethodEntity({
     required this.number,
-    required this.dayFor,
+    required this.goodForDate,
   }) : super(PaymentMethodType.preCheck);
 }

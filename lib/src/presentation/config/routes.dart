@@ -15,6 +15,8 @@ const String productFilterSelectionPageRoute = "Filtrar Produtos";
 const String orderPageRoute = "Pedidos";
 
 const String paymentPageRoute = "Pagamentos";
+const String paymentEditPageRoute = "Editar Pagamento";
+const String paymentFilterSelectionPageRoute = "Filtrar Pagamentos";
 
 final List<String> mainRoutes = [
   overviewPageRoute,

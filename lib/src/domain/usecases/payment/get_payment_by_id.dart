@@ -13,7 +13,7 @@ class GetPaymentById implements UseCase<PaymentEntity, GetPaymentByIdParams> {
   Future<Either<Failure, PaymentEntity>> call(
     GetPaymentByIdParams params,
   ) async {
-    return paymentRepository.getPaymentById(params.id);
+    return paymentRepository.getById(params.id);
   }
 }
 

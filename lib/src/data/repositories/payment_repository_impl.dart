@@ -12,9 +12,9 @@ class PaymentRepositoryImpl implements IPaymentRepository {
   PaymentRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<PaymentEntity>>> getPaymentAll() async {
+  Future<Either<Failure, List<PaymentEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getPaymentAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class PaymentRepositoryImpl implements IPaymentRepository {
   }
 
   @override
-  Future<Either<Failure, PaymentEntity>> getPaymentById(int id) async {
+  Future<Either<Failure, PaymentEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getPaymentById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,13 +32,23 @@ class PaymentRepositoryImpl implements IPaymentRepository {
   }
 
   @override
-  Future<Either<Failure, PaymentEntity>> setPayment(
+  Future<Either<Failure, PaymentEntity>> set(
     PaymentEntity paymentEntity,
   ) async {
     try {
-      final model = await localDataSource
-          .setPayment(PaymentModel.copyFrom(paymentEntity));
+      final model =
+          await localDataSource.set(PaymentModel.copyFrom(paymentEntity));
       return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
     } on LocalException {
       return Left(LocalFailure());
     }
