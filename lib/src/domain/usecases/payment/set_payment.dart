@@ -11,7 +11,7 @@ class SetPayment implements UseCase<PaymentEntity, SetPaymentParams> {
 
   @override
   Future<Either<Failure, PaymentEntity>> call(SetPaymentParams params) async {
-    return paymentRepository.setPayment(params.paymentEntity);
+    return paymentRepository.set(params.paymentEntity);
   }
 }
 

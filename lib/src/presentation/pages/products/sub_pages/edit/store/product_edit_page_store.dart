@@ -87,7 +87,8 @@ abstract class _ProductEditPageStoreBase with Store {
     String? message;
 
     if (triedToCompleteTheForm) {
-      if (price.isEmpty) {
+      final numValue = double.tryParse(price) ?? 0;
+      if (numValue == 0) {
         message = FieldErrorMessages.requiredField;
       } else if (!isPriceValid) {
         message = FieldErrorMessages.invalidField;

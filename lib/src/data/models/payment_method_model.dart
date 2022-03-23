@@ -1,4 +1,5 @@
 import 'package:frproteses/src/core/enums/payment_method_type.dart';
+import 'package:frproteses/src/core/utils/constants.dart';
 import 'package:frproteses/src/data/models/payment_method/check_payment_method_model.dart';
 import 'package:frproteses/src/data/models/payment_method/money_payment_method_model.dart';
 import 'package:frproteses/src/data/models/payment_method/pre_check_payment_method_model.dart';
@@ -26,6 +27,21 @@ abstract class PaymentMethodModel extends PaymentMethodEntity {
     }
   }
 
+  factory PaymentMethodModel.fromString(String str) {
+    final fields = str.split(SplitFieldsPattern.paymentMethodModelPattern);
+    final type = PaymentMethodTypeExtension.parse(fields[0]);
+
+    switch (type) {
+      case PaymentMethodType.check:
+        return CheckPaymentMethodModel.fromString(str);
+      case PaymentMethodType.preCheck:
+        return PreCheckPaymentMethodModel.fromString(str);
+      case PaymentMethodType.money:
+      default:
+        return MoneyPaymentMethodModel.fromString(str);
+    }
+  }
+
   factory PaymentMethodModel.fromJson(Map<String, dynamic> json) {
     switch (json["type"]) {
       case PaymentMethodType.check:
@@ -39,4 +55,7 @@ abstract class PaymentMethodModel extends PaymentMethodEntity {
   }
 
   Map<String, dynamic> toJson();
+
+  @override
+  String toString();
 }

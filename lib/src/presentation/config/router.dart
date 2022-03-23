@@ -8,6 +8,8 @@ import 'package:frproteses/src/presentation/pages/customers/sub_pages/filter_sel
 import 'package:frproteses/src/presentation/pages/orders/orders_page.dart';
 import 'package:frproteses/src/presentation/pages/overview/overview_page.dart';
 import 'package:frproteses/src/presentation/pages/payments/payments_page.dart';
+import 'package:frproteses/src/presentation/pages/payments/sub_pages/edit/payment_edit_page.dart';
+import 'package:frproteses/src/presentation/pages/payments/sub_pages/filter_selection/payment_filter_selection_page.dart';
 import 'package:frproteses/src/presentation/pages/products/products_page.dart';
 import 'package:frproteses/src/presentation/pages/products/sub_pages/edit/product_edit_page.dart';
 import 'package:frproteses/src/presentation/pages/products/sub_pages/filter_selection/product_filter_selection_page.dart';
@@ -87,6 +89,23 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case paymentPageRoute:
       page = PaymentsPage();
+      break;
+
+    case paymentEditPageRoute:
+      final args = settings.arguments;
+      assert(
+        args != null && args is PaymentEditPageArguments,
+        "PaymentEditPage requires PaymentEditPageArguments as Parameters",
+      );
+      page = PaymentEditPage(arguments: args as PaymentEditPageArguments);
+      break;
+
+    case paymentFilterSelectionPageRoute:
+      final args = settings.arguments;
+      assert(args != null && args is PaymentFilterSelectionPageArguments,
+          "PaymentFilterSelectionPage requires PaymentFilterSelectionPageArguments as Parameters");
+      page = PaymentFilterSelectionPage(
+          arguments: args as PaymentFilterSelectionPageArguments);
       break;
 
     case overviewPageRoute:

@@ -199,9 +199,6 @@ class ProviderEditLargeScreenPage extends StatelessWidget {
           controller: notesFieldController,
           onChanged: onChangedNotesField,
           errorText: notesFieldErrorText,
-          minLines: 5,
-          maxLines: 7,
-          maxLength: 5000,
         ),
       ],
     );

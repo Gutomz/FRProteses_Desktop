@@ -8,16 +8,18 @@ class AreaTextField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
+  final bool? enabled;
 
   AreaTextField({
     Key? key,
     required this.label,
-    required this.errorText,
+    this.errorText,
     this.controller,
     this.onChanged,
-    this.minLines,
-    this.maxLines,
-    this.maxLength,
+    this.minLines = 5,
+    this.maxLines = 7,
+    this.maxLength = 5000,
+    this.enabled,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class AreaTextField extends StatelessWidget {
       maxLength: maxLength,
       minLines: minLines,
       maxLines: maxLines,
+      enabled: enabled,
       decoration: InputDecoration(
         labelText: label,
         errorText: errorText,
