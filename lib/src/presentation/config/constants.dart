@@ -5,3 +5,4 @@ class FieldErrorMessages {
 
 const double kCardPadding = 16;
 const double kFormLineSpacing = 15;
+const double kFormHorizontalSpacing = 15;

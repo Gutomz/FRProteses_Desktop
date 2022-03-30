@@ -4,13 +4,19 @@ import 'package:frproteses/src/core/usecases/usecases.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 import 'package:frproteses/src/domain/repositories/order_repository.dart';
 
-class GetOrderAll implements UseCase<List<OrderEntity>, NoParams> {
+class SetOrderClose extends UseCase<OrderEntity, SetOrderCloseParams> {
   final IOrderRepository orderRepository;
 
-  GetOrderAll(this.orderRepository);
+  SetOrderClose(this.orderRepository);
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> call(NoParams params) async {
-    return orderRepository.getAll();
+  Future<Either<Failure, OrderEntity>> call(SetOrderCloseParams params) {
+    return orderRepository.setClose(params.id);
   }
+}
+
+class SetOrderCloseParams {
+  int id;
+
+  SetOrderCloseParams(this.id);
 }

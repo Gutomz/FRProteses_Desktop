@@ -12,9 +12,9 @@ class OrderRepositoryImpl implements IOrderRepository {
   OrderRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getOrderAll() async {
+  Future<Either<Failure, List<OrderEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getOrderAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class OrderRepositoryImpl implements IOrderRepository {
   }
 
   @override
-  Future<Either<Failure, OrderEntity>> getOrderById(int id) async {
+  Future<Either<Failure, OrderEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getOrderById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,10 +32,29 @@ class OrderRepositoryImpl implements IOrderRepository {
   }
 
   @override
-  Future<Either<Failure, OrderEntity>> setOrder(OrderEntity orderEntity) async {
+  Future<Either<Failure, OrderEntity>> set(OrderEntity orderEntity) async {
     try {
-      final model =
-          await localDataSource.setOrder(OrderModel.copyFrom(orderEntity));
+      final model = await localDataSource.set(OrderModel.copyFrom(orderEntity));
+      return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderEntity>> setClose(int id) async {
+    try {
+      final model = await localDataSource.setClose(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());

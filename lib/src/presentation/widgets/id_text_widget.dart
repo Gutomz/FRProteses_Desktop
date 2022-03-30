@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frproteses/src/presentation/widgets/form_info_text_widget.dart';
 
 class IDTextWidget extends StatelessWidget {
   final String id;
@@ -10,22 +11,6 @@ class IDTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-          color: Theme.of(context).disabledColor,
-          width: 2,
-        ),
-      ),
-      child: Text(
-        "ID: ${id.padLeft(4, "0")}",
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Theme.of(context).disabledColor,
-              fontWeight: FontWeight.bold,
-            ),
-      ),
-    );
+    return FormInfoTextWidget(title: "ID", value: id.padLeft(4, "0"));
   }
 }

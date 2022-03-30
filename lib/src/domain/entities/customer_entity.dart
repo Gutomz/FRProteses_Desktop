@@ -34,5 +34,11 @@ class CustomerEntity {
     );
   }
 
-  String get fullName => "$name $lastName";
+  String get fullName {
+    if (name.isEmpty && lastName.isEmpty) return "";
+    if (name.isNotEmpty && lastName.isEmpty) return name;
+    if (name.isEmpty && lastName.isNotEmpty) return lastName;
+
+    return "$name $lastName";
+  }
 }

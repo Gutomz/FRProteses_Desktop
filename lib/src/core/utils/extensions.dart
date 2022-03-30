@@ -69,6 +69,18 @@ extension DateTimeRangeExtension on DateTimeRange {
   }
 }
 
+extension ListExtension<E> on List<E> {
+  bool exist(bool Function(E) validation) {
+    bool found = false;
+    for (final e in this) {
+      if ((found = validation(e)) == true) {
+        break;
+      }
+    }
+    return found;
+  }
+}
+
 extension EitherX<L, R> on Either<L, R> {
   R asRight() => (this as Right).value as R;
   L asLeft() => (this as Left).value as L;
