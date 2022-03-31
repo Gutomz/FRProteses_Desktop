@@ -132,6 +132,31 @@ abstract class _OrderEditPageStoreBase with Store {
     return savedModel;
   }
 
+  @action
+  Future<bool> closeOrder() async {
+    final savedModel = await saveForm();
+
+    if (savedModel == null) {
+      // TODO - show erro message
+      return false;
+    }
+
+    final model = await orderStore.close(savedModel);
+
+    if (model == null) {
+      // TODO - show erro message
+      return false;
+    }
+
+    statusType = model.statusType;
+    deliveryDate = model.deliveryDate;
+    setSelectedProduct(null);
+    products.clear();
+    selectedProducts.clear();
+    customers.clear();
+    return true;
+  }
+
   OrderEntity convertFormData() {
     return OrderEntity(
       id: id,
@@ -230,23 +255,6 @@ abstract class _OrderEditPageStoreBase with Store {
     } else {
       setSelectedProduct(products.first);
     }
-  }
-
-  @action
-  Future<void> closeOrder() async {
-    final model = await orderStore.close(id);
-
-    if (model == null) {
-      // TODO - Show error message
-      return;
-    }
-
-    statusType = model.statusType;
-    deliveryDate = model.deliveryDate;
-    setSelectedProduct(null);
-    products.clear();
-    selectedProducts.clear();
-    customers.clear();
   }
 
   @computed

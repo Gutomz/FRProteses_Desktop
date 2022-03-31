@@ -4,12 +4,14 @@ import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
 import 'package:frproteses/src/domain/entities/payment_entity.dart';
 import 'package:frproteses/src/domain/usecases/payment/index.dart';
+import 'package:frproteses/src/presentation/stores/bank_account_store.dart';
 import 'package:mobx/mobx.dart';
 part 'payment_store.g.dart';
 
 class PaymentStore = _PaymentStoreBase with _$PaymentStore;
 
 abstract class _PaymentStoreBase with Store {
+  final BankAccountStore _bankAccountStore;
   final InputConverter _inputConverter;
   final GetPaymentAll _getAllUseCase;
   final GetPaymentById _getByIdUseCase;
@@ -23,12 +25,14 @@ abstract class _PaymentStoreBase with Store {
   bool _loading = false;
 
   _PaymentStoreBase({
+    required BankAccountStore bankAccountStore,
     required InputConverter inputConverter,
     required GetPaymentAll getAllUseCase,
     required GetPaymentById getByIdUseCase,
     required SetPayment setUseCase,
     required GetPaymentNextId getNextIdUseCase,
-  })  : _inputConverter = inputConverter,
+  })  : _bankAccountStore = bankAccountStore,
+        _inputConverter = inputConverter,
         _getAllUseCase = getAllUseCase,
         _getByIdUseCase = getByIdUseCase,
         _setUseCase = setUseCase,
@@ -67,10 +71,10 @@ abstract class _PaymentStoreBase with Store {
   }
 
   @action
-  Future<PaymentEntity?> getById(String customerId) async {
+  Future<PaymentEntity?> getById(String paymentId) async {
     _startLoading();
     final conversionOptions =
-        _inputConverter.stringToUnsignedInteger(customerId);
+        _inputConverter.stringToUnsignedInteger(paymentId);
 
     if (conversionOptions.isLeft()) {
       _setErrorMessage(conversionOptions.asLeft());
@@ -92,15 +96,24 @@ abstract class _PaymentStoreBase with Store {
   }
 
   @action
-  Future<PaymentEntity?> set(PaymentEntity customerEntity) async {
+  Future<PaymentEntity?> set(
+    PaymentEntity paymentEntity, {
+    bool isNew = false,
+  }) async {
     _startLoading();
-    final options = await _setUseCase(SetPaymentParams(customerEntity));
-    _stopLoading();
+    final options = await _setUseCase(SetPaymentParams(paymentEntity));
 
     if (options.isLeft()) {
       _setErrorMessage(options.asLeft());
+      _stopLoading();
       return null;
     }
+
+    if (isNew) {
+      await _bankAccountStore.pay(
+          paymentEntity.customerEntity.id, paymentEntity.value);
+    }
+    _stopLoading();
 
     return options.asRight();
   }

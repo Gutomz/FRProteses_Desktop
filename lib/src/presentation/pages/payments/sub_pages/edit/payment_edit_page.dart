@@ -77,7 +77,7 @@ class PaymentEditPage extends StatelessWidget {
   }
 
   Future<void> saveForm(BuildContext context) async {
-    final entity = await _store.saveForm();
+    final entity = await _store.saveForm(isNew: arguments.isNew);
 
     if (entity == null) {
       // ! TODO - Show error Message (customerStore.errorMessage)

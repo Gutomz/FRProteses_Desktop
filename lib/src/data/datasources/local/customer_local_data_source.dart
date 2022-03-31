@@ -24,6 +24,11 @@ abstract class ICustomerLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<int> getNextId();
+
+  /// Check if Customer id exists
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<bool> exists(int id);
 }
 
 class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
@@ -97,5 +102,15 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
     }
 
     return models.last.id + 1;
+  }
+
+  @override
+  Future<bool> exists(int id) async {
+    try {
+      await getById(id);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

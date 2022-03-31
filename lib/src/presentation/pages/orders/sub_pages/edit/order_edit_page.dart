@@ -103,6 +103,15 @@ class OrderEditPage extends StatelessWidget {
     _navigationStore.goBack();
   }
 
+  Future<void> closeOrder(BuildContext context) async {
+    if (await _store.closeOrder() == true) {
+      // final model = _store.convertFormData();
+      // TODO - print order extract
+      // TODO - ask to print customer extract
+      // TODO - case true - print customer extract and report bank account
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
@@ -112,6 +121,7 @@ class OrderEditPage extends StatelessWidget {
           isNew: arguments.isNew,
           closed: _store.statusType.isEqual(OrderStatusType.closed),
           onPressedSaveButton: () => saveForm(context),
+          onPressedCloseButton: () => closeOrder(context),
           store: _store,
           customerFieldController: customerFieldController,
           orderDateFieldController: orderDateFieldController,

@@ -1,25 +1,30 @@
 import 'package:frproteses/src/config/local_files.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
+import 'package:frproteses/src/data/datasources/local/bank_account_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/customer_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/order_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/payment_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/product_local_data_source.dart';
 import 'package:frproteses/src/data/datasources/local/provider_local_data_source.dart';
+import 'package:frproteses/src/data/repositories/bank_account_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/customer_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/order_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/payment_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/product_repository_impl.dart';
 import 'package:frproteses/src/data/repositories/provider_repository_impl.dart';
+import 'package:frproteses/src/domain/repositories/bank_account_repository.dart';
 import 'package:frproteses/src/domain/repositories/customer_repository.dart';
 import 'package:frproteses/src/domain/repositories/order_repository.dart';
 import 'package:frproteses/src/domain/repositories/payment_repository.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
+import 'package:frproteses/src/domain/usecases/bank_account/index.dart';
 import 'package:frproteses/src/domain/usecases/customer/index.dart';
 import 'package:frproteses/src/domain/usecases/order/index.dart';
 import 'package:frproteses/src/domain/usecases/payment/index.dart';
 import 'package:frproteses/src/domain/usecases/product/index.dart';
 import 'package:frproteses/src/domain/usecases/provider/index.dart';
+import 'package:frproteses/src/presentation/stores/bank_account_store.dart';
 import 'package:frproteses/src/presentation/stores/customer_store.dart';
 import 'package:frproteses/src/presentation/stores/menu_store.dart';
 import 'package:frproteses/src/presentation/stores/navigation_store.dart';
@@ -91,6 +96,7 @@ void _initSrcStores() {
 
   sl.registerFactory(
     () => PaymentStore(
+      bankAccountStore: sl(),
       inputConverter: sl(),
       getAllUseCase: sl(),
       getByIdUseCase: sl(),
@@ -101,12 +107,26 @@ void _initSrcStores() {
 
   sl.registerFactory(
     () => OrderStore(
+      bankAccountStore: sl(),
       inputConverter: sl(),
       getAllUseCase: sl(),
       getByIdUseCase: sl(),
       setUseCase: sl(),
       getNextIdUseCase: sl(),
       setCloseUseCase: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => BankAccountStore(
+      inputConverter: sl(),
+      getAllUseCase: sl(),
+      getByIdUseCase: sl(),
+      setUseCase: sl(),
+      getNextIdUseCase: sl(),
+      payUseCase: sl(),
+      chargeUseCase: sl(),
+      reportUseCase: sl(),
     ),
   );
 }
@@ -137,6 +157,14 @@ void _initSrcUseCases() {
   sl.registerLazySingleton(() => SetOrder(sl()));
   sl.registerLazySingleton(() => GetOrderNextId(sl()));
   sl.registerLazySingleton(() => SetOrderClose(sl()));
+
+  sl.registerLazySingleton(() => GetBankAccountAll(sl()));
+  sl.registerLazySingleton(() => GetBankAccountById(sl()));
+  sl.registerLazySingleton(() => SetBankAccount(sl()));
+  sl.registerLazySingleton(() => GetBankAccountNextId(sl()));
+  sl.registerLazySingleton(() => PayBankAccount(sl()));
+  sl.registerLazySingleton(() => ChargeBankAccount(sl()));
+  sl.registerLazySingleton(() => ReportBankAccount(sl()));
 }
 
 void _initSrcRepositories() {
@@ -166,6 +194,12 @@ void _initSrcRepositories() {
 
   sl.registerLazySingleton<IOrderRepository>(
     () => OrderRepositoryImpl(
+      localDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IBankAccountRepository>(
+    () => BankAccountRepositoryImpl(
       localDataSource: sl(),
     ),
   );
@@ -202,6 +236,13 @@ void _initSrcDataSources() {
       orderFile: getLocalFile(LocalFileType.orderFile),
       customerLocalDataSource: sl(),
       productLocalDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<IBankAccountLocalDataSource>(
+    () => BankAccountLocalDataSourceImpl(
+      bankAccountFile: getLocalFile(LocalFileType.bankAccountFile),
+      customerLocalDataSource: sl(),
     ),
   );
 }

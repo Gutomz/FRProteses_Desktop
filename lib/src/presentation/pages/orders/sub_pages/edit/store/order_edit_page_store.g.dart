@@ -390,7 +390,7 @@ mixin _$OrderEditPageStore on _OrderEditPageStoreBase, Store {
       AsyncAction('_OrderEditPageStoreBase.closeOrder');
 
   @override
-  Future<void> closeOrder() {
+  Future<bool> closeOrder() {
     return _$closeOrderAsyncAction.run(() => super.closeOrder());
   }
 

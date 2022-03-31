@@ -4,22 +4,22 @@ import 'package:frproteses/src/core/usecases/usecases.dart';
 import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
 import 'package:frproteses/src/domain/repositories/bank_account_repository.dart';
 
-class SetBankAccount
-    implements UseCase<BankAccountEntity, SetBankAccountParams> {
+class GetBankAccountByCustomerId
+    implements UseCase<BankAccountEntity, GetBankAccountByCustomerIdParams> {
   final IBankAccountRepository bankAccountRepository;
 
-  SetBankAccount(this.bankAccountRepository);
+  GetBankAccountByCustomerId(this.bankAccountRepository);
 
   @override
   Future<Either<Failure, BankAccountEntity>> call(
-    SetBankAccountParams params,
+    GetBankAccountByCustomerIdParams params,
   ) async {
-    return bankAccountRepository.set(params.bankAccountEntity);
+    return bankAccountRepository.getByCustomerId(params.customerId);
   }
 }
 
-class SetBankAccountParams {
-  BankAccountEntity bankAccountEntity;
+class GetBankAccountByCustomerIdParams {
+  int customerId;
 
-  SetBankAccountParams(this.bankAccountEntity);
+  GetBankAccountByCustomerIdParams(this.customerId);
 }
