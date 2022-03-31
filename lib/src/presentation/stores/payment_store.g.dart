@@ -71,15 +71,16 @@ mixin _$PaymentStore on _PaymentStoreBase, Store {
   final _$getByIdAsyncAction = AsyncAction('_PaymentStoreBase.getById');
 
   @override
-  Future<PaymentEntity?> getById(String customerId) {
-    return _$getByIdAsyncAction.run(() => super.getById(customerId));
+  Future<PaymentEntity?> getById(String paymentId) {
+    return _$getByIdAsyncAction.run(() => super.getById(paymentId));
   }
 
   final _$setAsyncAction = AsyncAction('_PaymentStoreBase.set');
 
   @override
-  Future<PaymentEntity?> set(PaymentEntity customerEntity) {
-    return _$setAsyncAction.run(() => super.set(customerEntity));
+  Future<PaymentEntity?> set(PaymentEntity paymentEntity,
+      {bool isNew = false}) {
+    return _$setAsyncAction.run(() => super.set(paymentEntity, isNew: isNew));
   }
 
   final _$getNextIdAsyncAction = AsyncAction('_PaymentStoreBase.getNextId');

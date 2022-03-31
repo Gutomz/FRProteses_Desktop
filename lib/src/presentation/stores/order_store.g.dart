@@ -92,8 +92,8 @@ mixin _$OrderStore on _OrderStoreBase, Store {
   final _$closeAsyncAction = AsyncAction('_OrderStoreBase.close');
 
   @override
-  Future<OrderEntity?> close(int orderId) {
-    return _$closeAsyncAction.run(() => super.close(orderId));
+  Future<OrderEntity?> close(OrderEntity orderEntity) {
+    return _$closeAsyncAction.run(() => super.close(orderEntity));
   }
 
   final _$_OrderStoreBaseActionController =

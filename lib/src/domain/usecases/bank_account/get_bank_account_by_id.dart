@@ -14,7 +14,7 @@ class GetBankAccountById
   Future<Either<Failure, BankAccountEntity>> call(
     GetBankAccountByIdParams params,
   ) async {
-    return bankAccountRepository.getBankAccountById(params.id);
+    return bankAccountRepository.getById(params.id);
   }
 }
 

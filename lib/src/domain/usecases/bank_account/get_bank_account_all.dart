@@ -11,6 +11,6 @@ class GetBankAccountAll implements UseCase<List<BankAccountEntity>, NoParams> {
 
   @override
   Future<Either<Failure, List<BankAccountEntity>>> call(NoParams params) async {
-    return bankAccountRepository.getBankAccountAll();
+    return bankAccountRepository.getAll();
   }
 }

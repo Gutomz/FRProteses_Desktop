@@ -1,6 +1,7 @@
 class SplitFieldsPattern {
   static const orderModelPattern = "-|||-";
   static const paymentModelPattern = "-|||-";
+  static const bankAccountModelPattern = "-|||-";
   static const orderItemModelPattern = "-||-";
   static const customerModelPattern = "-||-";
   static const providerModelPattern = "-||-";

@@ -2,22 +2,22 @@ import 'package:frproteses/src/core/errors/failure.dart';
 import 'package:frproteses/src/core/usecases/usecases.dart';
 import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/core/utils/input_converter.dart';
-import 'package:frproteses/src/domain/entities/order_entity.dart';
-import 'package:frproteses/src/domain/usecases/order/index.dart';
-import 'package:frproteses/src/presentation/stores/bank_account_store.dart';
+import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
+import 'package:frproteses/src/domain/usecases/bank_account/index.dart';
 import 'package:mobx/mobx.dart';
-part 'order_store.g.dart';
+part 'bank_account_store.g.dart';
 
-class OrderStore = _OrderStoreBase with _$OrderStore;
+class BankAccountStore = _BankAccountStoreBase with _$BankAccountStore;
 
-abstract class _OrderStoreBase with Store {
-  final BankAccountStore _bankAccountStore;
+abstract class _BankAccountStoreBase with Store {
   final InputConverter _inputConverter;
-  final GetOrderAll _getAllUseCase;
-  final GetOrderById _getByIdUseCase;
-  final SetOrder _setUseCase;
-  final GetOrderNextId _getNextIdUseCase;
-  final SetOrderClose _setCloseUseCase;
+  final GetBankAccountAll _getAllUseCase;
+  final GetBankAccountById _getByIdUseCase;
+  final SetBankAccount _setUseCase;
+  final GetBankAccountNextId _getNextIdUseCase;
+  final PayBankAccount _payUseCase;
+  final ChargeBankAccount _chargeUseCase;
+  final ReportBankAccount _reportUseCase;
 
   @observable
   String _errorMessage = "";
@@ -25,27 +25,30 @@ abstract class _OrderStoreBase with Store {
   @observable
   bool _loading = false;
 
-  _OrderStoreBase({
-    required BankAccountStore bankAccountStore,
+  _BankAccountStoreBase({
     required InputConverter inputConverter,
-    required GetOrderAll getAllUseCase,
-    required GetOrderById getByIdUseCase,
-    required SetOrder setUseCase,
-    required GetOrderNextId getNextIdUseCase,
-    required SetOrderClose setCloseUseCase,
-  })  : _bankAccountStore = bankAccountStore,
-        _inputConverter = inputConverter,
+    required GetBankAccountAll getAllUseCase,
+    required GetBankAccountById getByIdUseCase,
+    required SetBankAccount setUseCase,
+    required GetBankAccountNextId getNextIdUseCase,
+    required PayBankAccount payUseCase,
+    required ChargeBankAccount chargeUseCase,
+    required ReportBankAccount reportUseCase,
+  })  : _inputConverter = inputConverter,
         _getAllUseCase = getAllUseCase,
         _getByIdUseCase = getByIdUseCase,
         _setUseCase = setUseCase,
         _getNextIdUseCase = getNextIdUseCase,
-        _setCloseUseCase = setCloseUseCase;
+        _payUseCase = payUseCase,
+        _chargeUseCase = chargeUseCase,
+        _reportUseCase = reportUseCase;
 
   @action
   void _setErrorMessage(Failure? failure) {
     switch (failure.runtimeType) {
       case LocalFailure:
-        _errorMessage = "Ocorreu um erro ao carregar o arquivo de Pedidos.";
+        _errorMessage =
+            "Ocorreu um erro ao carregar o arquivo de Contas Bancárias.";
         break;
       default:
         _errorMessage = "Ocorreu um erro inesperado.";
@@ -60,7 +63,7 @@ abstract class _OrderStoreBase with Store {
   void _stopLoading() => _loading = false;
 
   @action
-  Future<List<OrderEntity>?> getAll() async {
+  Future<List<BankAccountEntity>?> getAll() async {
     _startLoading();
     final options = await _getAllUseCase(NoParams());
     _stopLoading();
@@ -74,9 +77,10 @@ abstract class _OrderStoreBase with Store {
   }
 
   @action
-  Future<OrderEntity?> getById(String orderId) async {
+  Future<BankAccountEntity?> getById(String bankAccountId) async {
     _startLoading();
-    final conversionOptions = _inputConverter.stringToUnsignedInteger(orderId);
+    final conversionOptions =
+        _inputConverter.stringToUnsignedInteger(bankAccountId);
 
     if (conversionOptions.isLeft()) {
       _setErrorMessage(conversionOptions.asLeft());
@@ -85,7 +89,7 @@ abstract class _OrderStoreBase with Store {
     }
 
     final options = await _getByIdUseCase(
-      GetOrderByIdParams(conversionOptions.asRight()),
+      GetBankAccountByIdParams(conversionOptions.asRight()),
     );
     _stopLoading();
 
@@ -98,9 +102,9 @@ abstract class _OrderStoreBase with Store {
   }
 
   @action
-  Future<OrderEntity?> set(OrderEntity orderEntity) async {
+  Future<BankAccountEntity?> set(BankAccountEntity bankAccountEntity) async {
     _startLoading();
-    final options = await _setUseCase(SetOrderParams(orderEntity));
+    final options = await _setUseCase(SetBankAccountParams(bankAccountEntity));
     _stopLoading();
 
     if (options.isLeft()) {
@@ -126,23 +130,37 @@ abstract class _OrderStoreBase with Store {
   }
 
   @action
-  Future<OrderEntity?> close(OrderEntity orderEntity) async {
+  Future<void> pay(int customerId, double amount) async {
     _startLoading();
-    final options = await _setCloseUseCase(SetOrderCloseParams(orderEntity.id));
+    final options = await _payUseCase(PayBankAccountParams(customerId, amount));
+    _stopLoading();
 
     if (options.isLeft()) {
       _setErrorMessage(options.asLeft());
-      _stopLoading();
-      return null;
     }
+  }
 
-    await _bankAccountStore.charge(
-      orderEntity.customerEntity.id,
-      orderEntity.totalPrice,
-    );
-
+  @action
+  Future<void> charge(int customerId, double amount) async {
+    _startLoading();
+    final options =
+        await _chargeUseCase(ChargeBankAccountParams(customerId, amount));
     _stopLoading();
-    return options.asRight();
+
+    if (options.isLeft()) {
+      _setErrorMessage(options.asLeft());
+    }
+  }
+
+  @action
+  Future<void> report(int customerId) async {
+    _startLoading();
+    final options = await _reportUseCase(ReportBankAccountParams(customerId));
+    _stopLoading();
+
+    if (options.isLeft()) {
+      _setErrorMessage(options.asLeft());
+    }
   }
 
   @computed

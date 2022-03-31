@@ -12,9 +12,9 @@ class BankAccountRepositoryImpl implements IBankAccountRepository {
   BankAccountRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<BankAccountEntity>>> getBankAccountAll() async {
+  Future<Either<Failure, List<BankAccountEntity>>> getAll() async {
     try {
-      final modelList = await localDataSource.getBankAccountAll();
+      final modelList = await localDataSource.getAll();
       return Right(modelList);
     } on LocalException {
       return Left(LocalFailure());
@@ -22,9 +22,9 @@ class BankAccountRepositoryImpl implements IBankAccountRepository {
   }
 
   @override
-  Future<Either<Failure, BankAccountEntity>> getBankAccountById(int id) async {
+  Future<Either<Failure, BankAccountEntity>> getById(int id) async {
     try {
-      final model = await localDataSource.getBankAccountById(id);
+      final model = await localDataSource.getById(id);
       return Right(model);
     } on LocalException {
       return Left(LocalFailure());
@@ -32,13 +32,64 @@ class BankAccountRepositoryImpl implements IBankAccountRepository {
   }
 
   @override
-  Future<Either<Failure, BankAccountEntity>> setBankAccount(
+  Future<Either<Failure, BankAccountEntity>> set(
     BankAccountEntity bankAccountEntity,
   ) async {
     try {
       final model = await localDataSource
-          .setBankAccount(BankAccountModel.copyFrom(bankAccountEntity));
+          .set(BankAccountModel.copyFrom(bankAccountEntity));
       return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, BankAccountEntity>> getByCustomerId(
+      int customerId) async {
+    try {
+      final model = await localDataSource.getByCustomerId(customerId);
+      return Right(model);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> getNextId() async {
+    try {
+      final id = await localDataSource.getNextId();
+      return Right(id);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> charge(int customerId, double amount) async {
+    try {
+      await localDataSource.charge(customerId, amount);
+      return Right(null);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> pay(int customerId, double amount) async {
+    try {
+      await localDataSource.pay(customerId, amount);
+      return Right(null);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> report(int customerId) async {
+    try {
+      await localDataSource.report(customerId);
+      return Right(null);
     } on LocalException {
       return Left(LocalFailure());
     }

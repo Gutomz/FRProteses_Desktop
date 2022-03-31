@@ -84,14 +84,14 @@ abstract class _PaymentEditPageStoreBase with Store {
     }
   }
 
-  Future<PaymentEntity?> saveForm() async {
+  Future<PaymentEntity?> saveForm({bool isNew = false}) async {
     setTriedToCompleteTheForm();
 
     if (!isFormValid) return null;
 
     final formData = convertFormData();
 
-    final savedModel = await paymentStore.set(formData);
+    final savedModel = await paymentStore.set(formData, isNew: isNew);
 
     return savedModel;
   }
