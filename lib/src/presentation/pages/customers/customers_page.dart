@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frproteses/injection_container.dart';
+import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
 import 'package:frproteses/src/presentation/config/routes.dart';
+import 'package:frproteses/src/presentation/helpers/printing.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
 import 'package:frproteses/src/presentation/pages/customers/customers_large_screen_page.dart';
 import 'package:frproteses/src/presentation/pages/customers/store/customer_filter_store.dart';
@@ -15,6 +17,7 @@ class CustomersPage extends StatelessWidget {
   final CustomersPageStore _store = CustomersPageStore(
     customerStore: sl(),
     filterStore: CustomerFilterStore(),
+    bankAccountStore: sl(),
   );
 
   CustomersPage({Key? key}) : super(key: key);
@@ -27,6 +30,7 @@ class CustomersPage extends StatelessWidget {
         onPressedCreate: _onPressedCreate,
         onPressedEdit: _onPressedEdit,
         onPressedFilters: () => _onPressedFilters(context),
+        onPressedPrint: _onPressedPrint,
       ),
     );
   }
@@ -40,6 +44,19 @@ class CustomersPage extends StatelessWidget {
     }
 
     return _navigateToCustomerEditPage(entity, isNew: true);
+  }
+
+  Future<void> _onPressedPrint(
+    BuildContext context,
+    BankAccountEntity bankAccountEntity,
+  ) async {
+    final printed =
+        await showCustomerExtractPrintPreview(context, bankAccountEntity);
+
+    if (printed == true) {
+      await _store.bankAccountStore.report(bankAccountEntity.customerEntity.id);
+      _store.updateBankAccount(bankAccountEntity.customerEntity);
+    }
   }
 
   Future<void> _onPressedEdit(CustomerEntity entity) async {

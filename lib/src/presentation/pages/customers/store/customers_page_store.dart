@@ -1,5 +1,7 @@
+import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
 import 'package:frproteses/src/presentation/pages/customers/store/customer_filter_store.dart';
+import 'package:frproteses/src/presentation/stores/bank_account_store.dart';
 import 'package:frproteses/src/presentation/stores/customer_store.dart';
 import 'package:mobx/mobx.dart';
 part 'customers_page_store.g.dart';
@@ -9,13 +11,16 @@ class CustomersPageStore = _CustomersPageStoreBase with _$CustomersPageStore;
 abstract class _CustomersPageStoreBase with Store {
   final CustomerStore customerStore;
   final CustomerFilterStore filterStore;
+  final BankAccountStore bankAccountStore;
 
   _CustomersPageStoreBase({
     required this.customerStore,
     required this.filterStore,
+    required this.bankAccountStore,
   });
 
   final ObservableList<CustomerEntity> _data = ObservableList();
+  final ObservableList<BankAccountEntity> _bankAccountData = ObservableList();
 
   @observable
   bool _loading = false;
@@ -53,14 +58,49 @@ abstract class _CustomersPageStoreBase with Store {
   Future<List<CustomerEntity>?> loadAll() async {
     _startLoading();
     final list = await customerStore.getAll();
-    _stopLoading();
 
-    if (list == null) return null;
+    if (list == null) {
+      _stopLoading();
+      return null;
+    }
 
     _data.clear();
+    _bankAccountData.clear();
+
+    for (final customer in list) {
+      final _bankAccount =
+          await bankAccountStore.getByCustomerId(customer.id.toString());
+
+      if (_bankAccount != null) {
+        _bankAccountData.add(_bankAccount);
+      }
+    }
+
     _data.addAll(list.asObservable());
 
+    _stopLoading();
     return list;
+  }
+
+  @action
+  Future<void> updateBankAccount(CustomerEntity customerEntity) async {
+    _startLoading();
+    final _bankAccount =
+        await bankAccountStore.getByCustomerId(customerEntity.id.toString());
+
+    if (_bankAccount == null) {
+      _stopLoading();
+      return;
+    }
+
+    int index = -1;
+    if ((index = _bankAccountData
+            .indexWhere((e) => e.customerEntity.id == customerEntity.id)) !=
+        -1) {
+      _bankAccountData[index] = _bankAccount;
+    }
+
+    _stopLoading();
   }
 
   void _sortData(List<CustomerEntity> _myData) {
@@ -97,6 +137,12 @@ abstract class _CustomersPageStoreBase with Store {
     _sortData(newData);
 
     return newData;
+  }
+
+  BankAccountEntity getBankAccount(CustomerEntity customerEntity) {
+    return _bankAccountData.firstWhere(
+        (e) => e.customerEntity.id == customerEntity.id,
+        orElse: () => BankAccountEntity.empty(0, customerEntity));
   }
 
   @computed
