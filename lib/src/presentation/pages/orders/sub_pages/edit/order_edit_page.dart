@@ -6,6 +6,7 @@ import 'package:frproteses/src/core/enums/order_model_type.dart';
 import 'package:frproteses/src/core/enums/order_status_type.dart';
 import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
+import 'package:frproteses/src/presentation/helpers/printing.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
 import 'package:frproteses/src/presentation/pages/orders/sub_pages/edit/order_edit_large_screen_page.dart';
 import 'package:frproteses/src/presentation/pages/orders/sub_pages/edit/store/order_edit_page_store.dart';
@@ -105,10 +106,17 @@ class OrderEditPage extends StatelessWidget {
 
   Future<void> closeOrder(BuildContext context) async {
     if (await _store.closeOrder() == true) {
-      // final model = _store.convertFormData();
-      // TODO - print order extract
+      final model = _store.convertFormData();
+      await showOrderPrintPreview(context, model);
       // TODO - ask to print customer extract
       // TODO - case true - print customer extract and report bank account
+    }
+  }
+
+  Future<void> printOrder(BuildContext context) async {
+    if (_store.isFormValid) {
+      final model = _store.convertFormData();
+      await showOrderPrintPreview(context, model);
     }
   }
 
@@ -122,6 +130,7 @@ class OrderEditPage extends StatelessWidget {
           closed: _store.statusType.isEqual(OrderStatusType.closed),
           onPressedSaveButton: () => saveForm(context),
           onPressedCloseButton: () => closeOrder(context),
+          onPressedPrintButton: () => printOrder(context),
           store: _store,
           customerFieldController: customerFieldController,
           orderDateFieldController: orderDateFieldController,

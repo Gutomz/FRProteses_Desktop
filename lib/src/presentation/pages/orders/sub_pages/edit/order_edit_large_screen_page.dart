@@ -26,6 +26,7 @@ class OrderEditLargeScreenPage extends StatelessWidget {
   final bool isNew;
   final Function()? onPressedSaveButton;
   final Function()? onPressedCloseButton;
+  final Function()? onPressedPrintButton;
 
   final TextEditingController customerFieldController;
   final TextEditingController orderDateFieldController;
@@ -52,6 +53,7 @@ class OrderEditLargeScreenPage extends StatelessWidget {
     this.isNew = false,
     this.onPressedSaveButton,
     this.onPressedCloseButton,
+    this.onPressedPrintButton,
     required this.store,
     required this.customerFieldController,
     required this.orderDateFieldController,
@@ -90,6 +92,18 @@ class OrderEditLargeScreenPage extends StatelessWidget {
                 OutlinedButton(
                   onPressed: onPressedCloseButton,
                   child: Text("Fechar Pedido"),
+                ),
+              ],
+            );
+          }
+
+          if (store.statusType.isEqual(OrderStatusType.closed)) {
+            return Row(
+              children: [
+                SizedBox(width: kFormHorizontalSpacing),
+                OutlinedButton(
+                  onPressed: onPressedPrintButton,
+                  child: Text("Imprimir"),
                 ),
               ],
             );
