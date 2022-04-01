@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:frproteses/src/core/utils/extensions.dart';
+import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -70,13 +71,13 @@ Future<void> requestPrint(
 
     if (success) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
     }
   } catch (e) {/* do nothing */}
 }
 
-Future<void> showPrintPreview(BuildContext context, pw.Document doc) async {
-  await showDialog(
+Future<bool?> showPrintPreview(BuildContext context, pw.Document doc) async {
+  return showDialog<bool>(
     context: context,
     builder: (context) => LayoutBuilder(builder: (context, constraints) {
       final paddingHorizontal = constraints.maxWidth / 4;
@@ -122,7 +123,7 @@ Future<void> showPrintPreview(BuildContext context, pw.Document doc) async {
                 padding: const EdgeInsets.all(15),
                 child: CircleAvatar(
                   child: IconButton(
-                    onPressed: Navigator.of(context).pop,
+                    onPressed: () => Navigator.of(context).pop(false),
                     icon: Icon(Icons.close_outlined),
                   ),
                 ),
@@ -135,9 +136,17 @@ Future<void> showPrintPreview(BuildContext context, pw.Document doc) async {
   );
 }
 
-Future<void> showOrderPrintPreview(
+Future<bool?> showOrderPrintPreview(
     BuildContext context, OrderEntity orderEntity) {
   return showPrintPreview(context, getOrderDocument(orderEntity));
+}
+
+Future<bool?> showCustomerExtractPrintPreview(
+    BuildContext context, BankAccountEntity bankAccountEntity) {
+  return showPrintPreview(
+    context,
+    getCustomerExtractDocument(bankAccountEntity),
+  );
 }
 
 pw.Document getOrderDocument(OrderEntity orderEntity) {
@@ -202,6 +211,50 @@ pw.Document getOrderDocument(OrderEntity orderEntity) {
             )
           ],
         ),
+      ],
+    ),
+  ));
+
+  return doc;
+}
+
+pw.Document getCustomerExtractDocument(BankAccountEntity bankAccountEntity) {
+  final doc = pw.Document(title: "Extrato");
+
+  doc.addPage(pw.Page(
+    build: (pw.Context context) => pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Text(
+          "Extrato",
+          style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+        ),
+        pw.Divider(),
+        _buildTitleValue(
+          title: "Data",
+          value: DateTime.now().formatDate(),
+        ),
+        _buildTitleValue(
+          title: "Cliente",
+          value: bankAccountEntity.customerEntity.fullName,
+        ),
+        _buildTitleValue(
+          title: bankAccountEntity.balance > 0
+              ? "Crédito Anterior"
+              : "Débito Anterior",
+          value: bankAccountEntity.balance.abs().formatMoney(),
+        ),
+        _buildTitleValue(
+          title: "Débito a Cobrar",
+          value: bankAccountEntity.outstandingBalance.formatMoney(),
+        ),
+        _buildTitleValue(
+          title: bankAccountEntity.difference > 0
+              ? "Total de Crédito"
+              : "Total de Débito",
+          value: bankAccountEntity.difference.abs().formatMoney(),
+        ),
+        pw.Divider(),
       ],
     ),
   ));

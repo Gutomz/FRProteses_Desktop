@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,7 +12,9 @@ import 'package:frproteses/src/presentation/helpers/printing.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
 import 'package:frproteses/src/presentation/pages/orders/sub_pages/edit/order_edit_large_screen_page.dart';
 import 'package:frproteses/src/presentation/pages/orders/sub_pages/edit/store/order_edit_page_store.dart';
+import 'package:frproteses/src/presentation/stores/bank_account_store.dart';
 import 'package:frproteses/src/presentation/stores/navigation_store.dart';
+import 'package:frproteses/src/presentation/widgets/simple_confirm_dialog.dart';
 import 'package:mobx/mobx.dart';
 
 class OrderEditPageArguments {
@@ -22,6 +26,7 @@ class OrderEditPageArguments {
 
 class OrderEditPage extends StatelessWidget {
   final OrderEditPageStore _store;
+  final BankAccountStore _bankAccountStore = sl();
   final NavigationStore _navigationStore = sl();
 
   final OrderEditPageArguments arguments;
@@ -108,8 +113,30 @@ class OrderEditPage extends StatelessWidget {
     if (await _store.closeOrder() == true) {
       final model = _store.convertFormData();
       await showOrderPrintPreview(context, model);
-      // TODO - ask to print customer extract
-      // TODO - case true - print customer extract and report bank account
+
+      final bankAccountEntity = await _bankAccountStore
+          .getByCustomerId(model.customerEntity.id.toString());
+
+      if (bankAccountEntity == null) return;
+
+      final answer = await showDialog<bool>(
+        context: context,
+        builder: (_) => SimpleConfirmDialog(
+          title: "Imprimir Extrato?",
+          content: "Gostaria de imprimir o extrato do cliente?",
+          acceptText: "Sim",
+          rejectText: "Não",
+        ),
+      );
+
+      if (answer == true) {
+        final success =
+            await showCustomerExtractPrintPreview(context, bankAccountEntity);
+
+        if (success == true) {
+          _bankAccountStore.report(model.customerEntity.id);
+        }
+      }
     }
   }
 
