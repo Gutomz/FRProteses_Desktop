@@ -21,4 +21,6 @@ class BankAccountEntity {
       outstandingBalance: 0,
     );
   }
+
+  double get difference => balance - outstandingBalance;
 }

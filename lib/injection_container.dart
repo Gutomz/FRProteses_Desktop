@@ -122,6 +122,7 @@ void _initSrcStores() {
       inputConverter: sl(),
       getAllUseCase: sl(),
       getByIdUseCase: sl(),
+      getByCustomerIdUseCase: sl(),
       setUseCase: sl(),
       getNextIdUseCase: sl(),
       payUseCase: sl(),
@@ -160,6 +161,7 @@ void _initSrcUseCases() {
 
   sl.registerLazySingleton(() => GetBankAccountAll(sl()));
   sl.registerLazySingleton(() => GetBankAccountById(sl()));
+  sl.registerLazySingleton(() => GetBankAccountByCustomerId(sl()));
   sl.registerLazySingleton(() => SetBankAccount(sl()));
   sl.registerLazySingleton(() => GetBankAccountNextId(sl()));
   sl.registerLazySingleton(() => PayBankAccount(sl()));

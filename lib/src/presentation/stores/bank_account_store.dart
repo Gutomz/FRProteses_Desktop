@@ -13,6 +13,7 @@ abstract class _BankAccountStoreBase with Store {
   final InputConverter _inputConverter;
   final GetBankAccountAll _getAllUseCase;
   final GetBankAccountById _getByIdUseCase;
+  final GetBankAccountByCustomerId _getByCustomerIdUseCase;
   final SetBankAccount _setUseCase;
   final GetBankAccountNextId _getNextIdUseCase;
   final PayBankAccount _payUseCase;
@@ -29,6 +30,7 @@ abstract class _BankAccountStoreBase with Store {
     required InputConverter inputConverter,
     required GetBankAccountAll getAllUseCase,
     required GetBankAccountById getByIdUseCase,
+    required GetBankAccountByCustomerId getByCustomerIdUseCase,
     required SetBankAccount setUseCase,
     required GetBankAccountNextId getNextIdUseCase,
     required PayBankAccount payUseCase,
@@ -37,6 +39,7 @@ abstract class _BankAccountStoreBase with Store {
   })  : _inputConverter = inputConverter,
         _getAllUseCase = getAllUseCase,
         _getByIdUseCase = getByIdUseCase,
+        _getByCustomerIdUseCase = getByCustomerIdUseCase,
         _setUseCase = setUseCase,
         _getNextIdUseCase = getNextIdUseCase,
         _payUseCase = payUseCase,
@@ -90,6 +93,31 @@ abstract class _BankAccountStoreBase with Store {
 
     final options = await _getByIdUseCase(
       GetBankAccountByIdParams(conversionOptions.asRight()),
+    );
+    _stopLoading();
+
+    if (options.isLeft()) {
+      _setErrorMessage(options.asLeft());
+      return null;
+    }
+
+    return options.asRight();
+  }
+
+  @action
+  Future<BankAccountEntity?> getByCustomerId(String customerId) async {
+    _startLoading();
+    final conversionOptions =
+        _inputConverter.stringToUnsignedInteger(customerId);
+
+    if (conversionOptions.isLeft()) {
+      _setErrorMessage(conversionOptions.asLeft());
+      _stopLoading();
+      return null;
+    }
+
+    final options = await _getByCustomerIdUseCase(
+      GetBankAccountByCustomerIdParams(conversionOptions.asRight()),
     );
     _stopLoading();
 
