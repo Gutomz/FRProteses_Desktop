@@ -121,6 +121,15 @@ mixin _$CustomersPageStore on _CustomersPageStoreBase, Store {
     return _$loadAllAsyncAction.run(() => super.loadAll());
   }
 
+  final _$updateBankAccountAsyncAction =
+      AsyncAction('_CustomersPageStoreBase.updateBankAccount');
+
+  @override
+  Future<void> updateBankAccount(CustomerEntity customerEntity) {
+    return _$updateBankAccountAsyncAction
+        .run(() => super.updateBankAccount(customerEntity));
+  }
+
   final _$_CustomersPageStoreBaseActionController =
       ActionController(name: '_CustomersPageStoreBase');
 

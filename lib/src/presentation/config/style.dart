@@ -13,6 +13,11 @@ ThemeData getLiteTheme() => ThemeData(
       iconTheme: IconThemeData(
         color: Colors.black87,
       ),
+      colorScheme: ColorScheme.light(
+        primary: Color.fromARGB(255, 81, 177, 255),
+        tertiary: Colors.green,
+        onErrorContainer: Color.fromARGB(255, 255, 135, 126),
+      ),
     );
 
 MaterialStateProperty<Color?> tableRowColor(BuildContext context) =>

@@ -75,6 +75,15 @@ mixin _$BankAccountStore on _BankAccountStoreBase, Store {
     return _$getByIdAsyncAction.run(() => super.getById(bankAccountId));
   }
 
+  final _$getByCustomerIdAsyncAction =
+      AsyncAction('_BankAccountStoreBase.getByCustomerId');
+
+  @override
+  Future<BankAccountEntity?> getByCustomerId(String customerId) {
+    return _$getByCustomerIdAsyncAction
+        .run(() => super.getByCustomerId(customerId));
+  }
+
   final _$setAsyncAction = AsyncAction('_BankAccountStoreBase.set');
 
   @override
