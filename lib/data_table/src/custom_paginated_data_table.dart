@@ -854,7 +854,9 @@ class CustomPaginatedDataTableState extends State<CustomPaginatedDataTable> {
           ],
         );
 
-        if (widget.wrapInCard) t = Card(semanticContainer: false, child: t);
+        if (widget.wrapInCard) {
+          t = Card(semanticContainer: false, elevation: 10, child: t);
+        }
 
         return t;
       },

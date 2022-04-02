@@ -49,10 +49,16 @@ class MenuItem extends StatelessWidget {
                 maintainSize: true,
                 maintainState: true,
                 maintainAnimation: true,
-                child: Container(
-                  width: 6,
-                  height: 40,
-                  color: Theme.of(context).highlightColor,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  ),
+                  child: Container(
+                    width: 6,
+                    height: 40,
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
               ),
               SizedBox(width: _width / 80),

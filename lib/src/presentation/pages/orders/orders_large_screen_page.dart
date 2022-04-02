@@ -56,19 +56,23 @@ class OrdersLargeScreenPage extends StatelessWidget {
             CustomDataTableColumn(
               title: "Status",
               size: ColumnSize.S,
+              onSort: _onSort,
             ),
             CustomDataTableColumn(title: "Cliente", onSort: _onSort),
             CustomDataTableColumn(
               title: "Preço Total",
               size: ColumnSize.S,
+              onSort: _onSort,
             ),
             CustomDataTableColumn(
               title: "Data",
               size: ColumnSize.S,
+              onSort: _onSort,
             ),
             CustomDataTableColumn(
               title: "Data Entrega",
               size: ColumnSize.S,
+              onSort: _onSort,
             ),
           ],
           header: Observer(builder: (context) {

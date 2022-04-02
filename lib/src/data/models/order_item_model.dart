@@ -28,16 +28,6 @@ class OrderItemModel extends OrderItemEntity {
     );
   }
 
-  factory OrderItemModel.fromJson(Map<String, dynamic> json) {
-    return OrderItemModel(
-      id: (json["id"] as num).toInt(),
-      productModel:
-          ProductModel.fromJson(json["product"] as Map<String, dynamic>),
-      quantity: (json["quantity"] as num).toInt(),
-      unitPrice: (json["unitPrice"] as num).toDouble(),
-    );
-  }
-
   factory OrderItemModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.orderItemModelPattern);
 
@@ -51,15 +41,6 @@ class OrderItemModel extends OrderItemEntity {
     } on Exception {
       return OrderItemModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "product": ProductModel.copyFrom(productEntity).toJson(),
-      "quantity": quantity,
-      "unitPrice": unitPrice,
-    };
   }
 
   @override

@@ -10,18 +10,29 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
   return AppBar(
     leadingWidth: MediaQuery.of(context).size.width / 6,
     leading: ResponsiveWidget.isSmallScreen(context)
-        ? IconButton(
-            onPressed: () => key.currentState?.openDrawer(),
-            icon: Icon(Icons.menu),
-          )
+        ? null
         : Center(
             child: Text(
               "FRPróteses",
-              style: Theme.of(context).textTheme.titleLarge,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-    elevation: 0,
-    backgroundColor: Colors.transparent,
+    actions: [
+      if (ResponsiveWidget.isSmallScreen(context))
+        IconButton(
+          onPressed: () => key.currentState?.openEndDrawer(),
+          icon: Icon(
+            Icons.menu,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+    ],
+    elevation: 5,
+    backgroundColor: Theme.of(context).canvasColor,
     titleSpacing: 16,
     title: Observer(
       builder: (_) {
@@ -39,6 +50,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) {
                 hoverColor: Theme.of(context).splashColor.withOpacity(0.1),
                 highlightColor: Theme.of(context).splashColor.withOpacity(0.4),
               ),
+            if (_navigationStore.hasStackedRoutes) SizedBox(width: 5),
             Text(
               _navigationStore.currentRouteName,
               style: Theme.of(context).textTheme.titleLarge,

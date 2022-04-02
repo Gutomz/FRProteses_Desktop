@@ -36,16 +36,6 @@ class AddressModel extends AddressEntity {
     );
   }
 
-  factory AddressModel.fromJson(Map<String, dynamic> json) {
-    return AddressModel(
-      cep: json["cep"] as String,
-      street: json["street"] as String,
-      neighborhood: json["neighborhood"] as String,
-      city: json["city"] as String,
-      state: json["state"] as String,
-    );
-  }
-
   factory AddressModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.addressModelPattern);
     try {
@@ -59,16 +49,6 @@ class AddressModel extends AddressEntity {
     } on Exception {
       return AddressModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "cep": cep,
-      "street": street,
-      "neighborhood": neighborhood,
-      "city": city,
-      "state": state,
-    };
   }
 
   @override

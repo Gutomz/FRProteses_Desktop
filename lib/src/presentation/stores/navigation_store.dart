@@ -34,7 +34,12 @@ abstract class _NavigationStoreBase with Store {
   void goBack() {
     if (navigationKey.currentState != null &&
         navigationKey.currentState!.canPop()) {
-      navigationKey.currentState?.pop();
+      if (_localStack.length > 1) {
+        navigationKey.currentState?.popUntil((route) =>
+            route.settings.name == _localStack[_localStack.length - 2]);
+      } else {
+        navigationKey.currentState?.pop();
+      }
 
       if (_localStack.isNotEmpty) {
         _localStack.removeLast();

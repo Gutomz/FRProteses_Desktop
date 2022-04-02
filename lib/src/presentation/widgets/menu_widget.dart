@@ -16,53 +16,56 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
 
-    return Container(
-      color: Theme.of(context).canvasColor,
-      child: ListView(
-        children: [
-          if (ResponsiveWidget.isSmallScreen(context))
-            Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: _width / 48),
-                    Padding(
-                      padding: EdgeInsets.only(right: 12),
-                      child: Icon(Icons.abc_rounded),
-                    ),
-                    Flexible(
-                      child: Text(
-                        "Dashboard",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+    return Material(
+      elevation: 10,
+      child: Container(
+        color: Theme.of(context).canvasColor,
+        child: ListView(
+          children: [
+            if (ResponsiveWidget.isSmallScreen(context))
+              Column(
+                children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: _width / 48),
+                      Padding(
+                        padding: EdgeInsets.only(right: 12),
+                        child: Icon(Icons.abc_rounded),
+                      ),
+                      Flexible(
+                        child: Text(
+                          "Dashboard",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: _width / 48),
-                  ],
-                ),
-                SizedBox(height: 40),
-                Divider(color: Theme.of(context).dividerColor, height: 1),
-              ],
-            ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: mainRoutes
-                .map(
-                  (itemName) => MenuItem(
-                    itemName: itemName,
-                    icon: _getIconDataFor(itemName),
-                    onTap: () => _onTapMenuItem(context, itemName),
+                      SizedBox(width: _width / 48),
+                    ],
                   ),
-                )
-                .toList(),
-          ),
-        ],
+                  SizedBox(height: 40),
+                  Divider(color: Theme.of(context).dividerColor, height: 1),
+                ],
+              ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: mainRoutes
+                  .map(
+                    (itemName) => MenuItem(
+                      itemName: itemName,
+                      icon: _getIconDataFor(itemName),
+                      onTap: () => _onTapMenuItem(context, itemName),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

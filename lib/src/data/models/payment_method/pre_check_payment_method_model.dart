@@ -18,28 +18,12 @@ class PreCheckPaymentMethodModel extends PreCheckPaymentMethodEntity
     );
   }
 
-  factory PreCheckPaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    return PreCheckPaymentMethodModel(
-      number: json["number"] as String,
-      goodForDate: json["goodForDate"] as String,
-    );
-  }
-
   factory PreCheckPaymentMethodModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.paymentMethodModelPattern);
     return PreCheckPaymentMethodModel(
       number: fields[1],
       goodForDate: fields[2],
     );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      "type": type,
-      "number": number,
-      "goodForDate": goodForDate,
-    };
   }
 
   @override

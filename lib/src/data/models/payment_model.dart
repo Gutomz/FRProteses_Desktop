@@ -35,19 +35,6 @@ class PaymentModel extends PaymentEntity {
     );
   }
 
-  factory PaymentModel.fromJson(Map<String, dynamic> json) {
-    return PaymentModel(
-      id: (json["id"] as num).toInt(),
-      date: json["date"] as String,
-      customerModel:
-          CustomerModel.fromJson(json["customer"] as Map<String, dynamic>),
-      value: (json["value"] as num).toDouble(),
-      methodModel:
-          PaymentMethodModel.fromJson(json["method"] as Map<String, dynamic>),
-      notes: json["notes"] as String,
-    );
-  }
-
   factory PaymentModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.paymentModelPattern);
 
@@ -63,17 +50,6 @@ class PaymentModel extends PaymentEntity {
     } on Exception {
       return PaymentModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "date": date,
-      "customer": CustomerModel.copyFrom(customerEntity).toJson(),
-      "value": value,
-      "method": PaymentMethodModel.copyFrom(methodEntity).toJson(),
-      "notes": notes,
-    };
   }
 
   @override

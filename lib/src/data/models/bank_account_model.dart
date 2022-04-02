@@ -42,20 +42,6 @@ class BankAccountModel extends BankAccountEntity {
     );
   }
 
-  factory BankAccountModel.fromJson(Map<String, dynamic> json) {
-    return BankAccountModel(
-      id: (json["id"] as num).toInt(),
-      customerModel:
-          CustomerModel.fromJson(json["customer"] as Map<String, dynamic>),
-      balance: (json["balance"] as num).toDouble(),
-      outstandingBalance: (json["outstandingBalance"] as num).toDouble(),
-      ordersCount: (json["ordersCount"] as num).toInt(),
-      ordersTotalValue: (json["ordersTotalValue"] as num).toDouble(),
-      paymentsCount: (json["paymentsCount"] as num).toInt(),
-      paymentsTotalValue: (json["paymentsTotalValue"] as num).toDouble(),
-    );
-  }
-
   factory BankAccountModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.bankAccountModelPattern);
 
@@ -76,19 +62,6 @@ class BankAccountModel extends BankAccountEntity {
         customerModel: CustomerModel.empty(),
       );
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "customer": CustomerModel.copyFrom(customerEntity).toJson(),
-      "balance": balance,
-      "outstandingBalance": outstandingBalance,
-      "ordersCount": ordersCount,
-      "ordersTotalValue": ordersTotalValue,
-      "paymentsCount": paymentsCount,
-      "paymentsTotalValue": paymentsTotalValue,
-    };
   }
 
   @override

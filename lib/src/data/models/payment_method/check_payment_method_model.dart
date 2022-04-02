@@ -12,21 +12,9 @@ class CheckPaymentMethodModel extends CheckPaymentMethodEntity
     return CheckPaymentMethodModel(checkPaymentMethodEntity.number);
   }
 
-  factory CheckPaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    return CheckPaymentMethodModel(json["number"] as String);
-  }
-
   factory CheckPaymentMethodModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.paymentMethodModelPattern);
     return CheckPaymentMethodModel(fields[1]);
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      "type": type,
-      "number": number,
-    };
   }
 
   @override

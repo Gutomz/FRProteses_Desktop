@@ -42,20 +42,6 @@ abstract class PaymentMethodModel extends PaymentMethodEntity {
     }
   }
 
-  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    switch (json["type"]) {
-      case PaymentMethodType.check:
-        return CheckPaymentMethodModel.fromJson(json);
-      case PaymentMethodType.preCheck:
-        return PreCheckPaymentMethodModel.fromJson(json);
-      case PaymentMethodType.money:
-      default:
-        return MoneyPaymentMethodModel.fromJson(json);
-    }
-  }
-
-  Map<String, dynamic> toJson();
-
   @override
   String toString();
 }

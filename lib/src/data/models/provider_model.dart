@@ -49,20 +49,6 @@ class ProviderModel extends ProviderEntity {
     );
   }
 
-  factory ProviderModel.fromJson(Map<String, dynamic> json) {
-    return ProviderModel(
-      id: (json["id"] as num).toInt(),
-      name: json["name"] as String,
-      lastName: json['lastName'] as String,
-      phone: json["phone"] as String,
-      email: json["email"] as String,
-      addressModel:
-          AddressModel.fromJson(json["address"] as Map<String, dynamic>),
-      document: json["document"] as String,
-      notes: json["notes"] as String,
-    );
-  }
-
   factory ProviderModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.providerModelPattern);
 
@@ -80,19 +66,6 @@ class ProviderModel extends ProviderEntity {
     } on Exception {
       return ProviderModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "name": name,
-      "lastName": lastName,
-      "phone": phone,
-      "email": email,
-      "address": AddressModel.copyFrom(addressEntity).toJson(),
-      "document": document,
-      "notes": notes,
-    };
   }
 
   @override

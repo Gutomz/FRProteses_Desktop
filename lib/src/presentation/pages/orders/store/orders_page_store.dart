@@ -1,3 +1,4 @@
+import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 import 'package:frproteses/src/presentation/pages/orders/store/order_filter_store.dart';
 import 'package:frproteses/src/presentation/stores/order_store.dart';
@@ -76,11 +77,53 @@ abstract class _OrdersPageStoreBase with Store {
       } else if (_sortColumnIndex == 1) {
         _myData.sort((a, b) {
           if (_sortAscending) {
+            return a.statusType.index.compareTo(b.statusType.index);
+          }
+
+          return b.statusType.index.compareTo(a.statusType.index);
+        });
+      } else if (_sortColumnIndex == 2) {
+        _myData.sort((a, b) {
+          if (_sortAscending) {
             return a.customerEntity.fullName
                 .compareTo(b.customerEntity.fullName);
           }
 
           return b.customerEntity.fullName.compareTo(a.customerEntity.fullName);
+        });
+      } else if (_sortColumnIndex == 3) {
+        _myData.sort((a, b) {
+          if (_sortAscending) {
+            return a.totalPrice.compareTo(b.totalPrice);
+          }
+
+          return b.totalPrice.compareTo(a.totalPrice);
+        });
+      } else if (_sortColumnIndex == 4) {
+        _myData.sort((a, b) {
+          final aDate = a.orderDate.toDateTime()!;
+          final bDate = b.orderDate.toDateTime()!;
+
+          if (_sortAscending) {
+            return aDate.compareTo(bDate);
+          }
+
+          return bDate.compareTo(aDate);
+        });
+      } else if (_sortColumnIndex == 5) {
+        _myData.sort((a, b) {
+          final aDate = a.orderDate.toDateTime();
+          final bDate = b.orderDate.toDateTime();
+
+          if (_sortAscending) {
+            if (aDate == null) return -1;
+            if (bDate == null) return 1;
+            return aDate.compareTo(bDate);
+          }
+
+          if (aDate == null) return 1;
+          if (bDate == null) return -1;
+          return bDate.compareTo(aDate);
         });
       }
     }

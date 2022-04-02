@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
+const Color kPrimaryColor = Color.fromARGB(255, 34, 116, 184);
+
 ThemeData getLiteTheme() => ThemeData(
-      primaryColor: Color.fromARGB(255, 81, 177, 255),
+      primaryColor: kPrimaryColor,
       shadowColor: Colors.black38,
-      focusColor: Color.fromARGB(255, 81, 177, 255).withOpacity(0.4),
-      hoverColor: Color.fromARGB(255, 81, 177, 255).withOpacity(0.2),
-      highlightColor: Color.fromARGB(255, 81, 177, 255).withOpacity(0.3),
+      focusColor: kPrimaryColor.withOpacity(0.6),
+      hoverColor: kPrimaryColor.withOpacity(0.4),
+      highlightColor: kPrimaryColor.withOpacity(0.5),
       canvasColor: Colors.white,
       backgroundColor: Color.fromARGB(255, 240, 240, 240),
       cardColor: Colors.white,
-      splashColor: Color.fromARGB(255, 81, 177, 255).withOpacity(0.3),
+      splashColor: kPrimaryColor.withOpacity(0.3),
       iconTheme: IconThemeData(
         color: Colors.black87,
       ),
       colorScheme: ColorScheme.light(
-        primary: Color.fromARGB(255, 81, 177, 255),
+        primary: kPrimaryColor,
         tertiary: Colors.green,
         onErrorContainer: Color.fromARGB(255, 255, 135, 126),
       ),

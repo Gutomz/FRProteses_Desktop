@@ -1,6 +1,5 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/injection_container.dart';
 import 'package:frproteses/src/core/enums/payment_method_type.dart';
 import 'package:frproteses/src/core/utils/extensions.dart';
@@ -90,39 +89,19 @@ class PaymentEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      largeScreenWidget: Observer(
-        builder: (context) {
-          return PaymentEditLargeScreenPage(
-            id: _store.id.toString(),
-            readOnly: !arguments.isNew,
-            customers: _store.customers,
-            onPressedSaveButton: () => saveForm(context),
-            customerFieldController: customerFieldController,
-            onChangedCustomerField: _store.setCustomer,
-            customerFieldErrorText: _store.customerFieldErrorMessage,
-            dateFieldController: dateFieldController,
-            onChangedDateField: _store.setDate,
-            dateFieldErrorText: _store.dateFieldErrorMessage,
-            methodFieldController: methodFieldController,
-            onChangedMethodField: _store.setMethod,
-            methodFieldErrorText: _store.methodFieldErrorMessage,
-            paidValueFieldController: paidValueFieldController,
-            onChangedPaidValueField: (_) => _store
-                .setPaidValue(paidValueFieldController.numberValue.toString()),
-            paidValueFieldErrorText: _store.paidValueFieldErrorMessage,
-            checkNumFieldController: checkNumFieldController,
-            onChangedCheckNumField: _store.setCheckNum,
-            checkNumFieldErrorText: _store.checkNumFieldErrorMessage,
-            isCheckNumFieldEnabled: _store.isCheckNumFieldEnabled,
-            goodForDateFieldController: goodForDateFieldController,
-            onChangedGoodForDateField: _store.setGoodForDate,
-            goodForDateFieldErrorText: _store.goodForDateFieldErrorMessage,
-            isGoodForDateFieldEnabled: _store.isGoodForDateFieldEnabled,
-            notesFieldController: notesFieldController,
-            onChangedNotesField: _store.setNotes,
-            notesFieldErrorText: _store.notesFieldErrorMessage,
-          );
-        },
+      largeScreenWidget: PaymentEditLargeScreenPage(
+        store: _store,
+        id: _store.id.toString(),
+        readOnly: !arguments.isNew,
+        customers: _store.customers,
+        onPressedSaveButton: () => saveForm(context),
+        customerFieldController: customerFieldController,
+        dateFieldController: dateFieldController,
+        methodFieldController: methodFieldController,
+        paidValueFieldController: paidValueFieldController,
+        checkNumFieldController: checkNumFieldController,
+        goodForDateFieldController: goodForDateFieldController,
+        notesFieldController: notesFieldController,
       ),
     );
   }

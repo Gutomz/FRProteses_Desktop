@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:frproteses/src/presentation/config/constants.dart';
+import 'package:frproteses/src/presentation/pages/customers/store/customer_filter_store.dart';
 import 'package:frproteses/src/presentation/widgets/filter_form_widget.dart';
 import 'package:frproteses/src/presentation/widgets/underlined_text_field.dart';
 
 class CustomerFilterSelectionLargeScreenPage extends StatelessWidget {
+  final CustomerFilterStore store;
   final Function()? onPressedSaveButton;
   final TextEditingController idFieldController;
-  final Function(String)? onChangedIdField;
   final TextEditingController nameFieldController;
-  final Function(String)? onChangedNameField;
 
   const CustomerFilterSelectionLargeScreenPage({
     Key? key,
+    required this.store,
     this.onPressedSaveButton,
     required this.idFieldController,
-    required this.onChangedIdField,
     required this.nameFieldController,
-    required this.onChangedNameField,
   }) : super(key: key);
 
   @override
@@ -31,15 +31,15 @@ class CustomerFilterSelectionLargeScreenPage extends StatelessWidget {
               child: UnderlinedTextField(
                 label: "ID",
                 controller: idFieldController,
-                onChanged: onChangedIdField,
+                onChanged: store.setId,
               ),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
               child: UnderlinedTextField(
                 label: "Nome",
                 controller: nameFieldController,
-                onChanged: onChangedNameField,
+                onChanged: store.setFullName,
               ),
             ),
           ],

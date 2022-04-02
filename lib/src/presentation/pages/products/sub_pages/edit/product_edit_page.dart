@@ -1,6 +1,5 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/injection_container.dart';
 import 'package:frproteses/src/domain/entities/product_entity.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
@@ -49,20 +48,12 @@ class ProductEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      largeScreenWidget: Observer(
-        builder: (context) {
-          return ProductEditLargeScreenPage(
-            id: _store.id.toString(),
-            nameFieldController: nameFieldController,
-            onChangedNameField: _store.setName,
-            nameFieldErrorText: _store.nameFieldErrorMessage,
-            priceFieldController: priceFieldController,
-            onChangedPriceField: (_) =>
-                _store.setPrice(priceFieldController.numberValue.toString()),
-            priceFieldErrorText: _store.priceFieldErrorMessage,
-            onPressedSaveButton: () => saveForm(context),
-          );
-        },
+      largeScreenWidget: ProductEditLargeScreenPage(
+        store: _store,
+        id: _store.id.toString(),
+        onPressedSaveButton: () => saveForm(context),
+        nameFieldController: nameFieldController,
+        priceFieldController: priceFieldController,
       ),
     );
   }

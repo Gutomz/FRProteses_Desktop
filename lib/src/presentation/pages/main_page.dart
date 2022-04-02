@@ -15,7 +15,9 @@ class MainPage extends StatelessWidget {
       key: scaffoldKey,
       backgroundColor: Theme.of(context).canvasColor,
       appBar: topNavigationBar(context, scaffoldKey),
-      drawer: Drawer(child: Menu()),
+      endDrawer: ResponsiveWidget.isSmallScreen(context)
+          ? Drawer(child: Menu())
+          : null,
       body: Container(
         color: Theme.of(context).backgroundColor,
         child: ResponsiveWidget(

@@ -26,14 +26,12 @@ class CustomerFilterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _store = arguments.store;
     return ResponsiveWidget(
       largeScreenWidget: CustomerFilterSelectionLargeScreenPage(
+        store: arguments.store,
         onPressedSaveButton: onPressedSaveButton,
         idFieldController: idFieldController,
-        onChangedIdField: _store.setId,
         nameFieldController: nameFieldController,
-        onChangedNameField: _store.setFullName,
       ),
     );
   }

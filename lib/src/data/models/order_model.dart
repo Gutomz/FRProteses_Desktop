@@ -58,35 +58,6 @@ class OrderModel extends OrderEntity {
     );
   }
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) {
-    List<OrderItemModel> items = List.empty(growable: true);
-
-    if (json.containsKey("items")) {
-      items = (json["items"] as List)
-          .map<OrderItemModel>(
-            (e) => OrderItemModel.fromJson(e as Map<String, dynamic>),
-          )
-          .toList();
-    }
-
-    return OrderModel(
-      id: (json["id"] as num).toInt(),
-      orderDate: json["orderDate"] as String,
-      deliveryDate: json["deliveryDate"] as String,
-      customerModel:
-          CustomerModel.fromJson(json["customer"] as Map<String, dynamic>),
-      patientName: json["patientName"] as String,
-      scale: json["scale"] as String,
-      color: json["color"] as String,
-      modelType: json["modelType"] as OrderModelType,
-      dentalArchModel:
-          DentalArchModel.fromJson(json["dentalArch"] as Map<String, dynamic>),
-      statusType: json["statusType"] as OrderStatusType,
-      itemsModel: items,
-      notes: json["notes"] as String,
-    );
-  }
-
   factory OrderModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.orderModelPattern);
 
@@ -113,25 +84,6 @@ class OrderModel extends OrderEntity {
     } on Exception {
       return OrderModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "orderDate": orderDate,
-      "deliveryDate": deliveryDate,
-      "customer": CustomerModel.copyFrom(customerEntity).toJson(),
-      "patientName": patientName,
-      "scale": scale,
-      "color": color,
-      "modelType": modelType,
-      "dentalArch": DentalArchModel.copyFrom(dentalArchEntity).toJson(),
-      "statusType": statusType,
-      "items": itemsEntity
-          .map<Map<String, dynamic>>((e) => OrderItemModel.copyFrom(e).toJson())
-          .toList(),
-      "notes": notes,
-    };
   }
 
   @override
