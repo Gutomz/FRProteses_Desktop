@@ -127,11 +127,9 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
 
     if (model == null) {
       if (await customerLocalDataSource.exists(customerId)) {
-        model = BankAccountModel(
+        model = BankAccountModel.empty(
           id: await getNextId(),
           customerModel: await customerLocalDataSource.getById(customerId),
-          balance: 0,
-          outstandingBalance: 0,
         );
       } else {
         throw LocalException();
@@ -162,6 +160,8 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
   Future<void> pay(int customerId, double amount) async {
     final model = await getByCustomerId(customerId);
     model.balance += amount;
+    model.paymentsTotalValue += amount;
+    model.paymentsCount++;
     await set(model);
   }
 
@@ -169,6 +169,8 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
   Future<void> charge(int customerId, double amount) async {
     final model = await getByCustomerId(customerId);
     model.outstandingBalance += amount;
+    model.ordersTotalValue += amount;
+    model.ordersCount++;
     await set(model);
   }
 
