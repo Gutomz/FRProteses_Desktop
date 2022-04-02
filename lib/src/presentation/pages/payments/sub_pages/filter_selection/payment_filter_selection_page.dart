@@ -39,21 +39,15 @@ class PaymentFilterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _store = arguments.store;
     return ResponsiveWidget(
       largeScreenWidget: PaymentFilterSelectionLargeScreenPage(
+        store: arguments.store,
         onPressedSaveButton: onPressedSaveButton,
         idFieldController: idFieldController,
-        onChangedIdField: _store.setId,
         customerFieldController: customerFieldController,
-        onChangedCustomerField: _store.setCustomer,
         dateRangeFieldController: dateRangeFieldController,
-        onChangedDateRangeField: _store.setDateRange,
         paymentMethodFieldController: paymentMethodFieldController,
-        onChangedPaymentMethodField: _store.setPaymentMethod,
         paidValueFieldController: paidValueFieldController,
-        onChangedPaidValueField: (_) => _store
-            .setPaidValue(paidValueFieldController.numberValue.toString()),
       ),
     );
   }

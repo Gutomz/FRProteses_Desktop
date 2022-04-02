@@ -1,25 +1,24 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:frproteses/src/presentation/config/constants.dart';
+import 'package:frproteses/src/presentation/pages/products/store/product_filter_store.dart';
 import 'package:frproteses/src/presentation/widgets/filter_form_widget.dart';
 import 'package:frproteses/src/presentation/widgets/underlined_text_field.dart';
 
 class ProductFilterSelectionLargeScreenPage extends StatelessWidget {
+  final ProductFilterStore store;
   final Function()? onPressedSaveButton;
   final TextEditingController idFieldController;
-  final Function(String)? onChangedIdField;
   final TextEditingController nameFieldController;
-  final Function(String)? onChangedNameField;
-  final TextEditingController priceFieldController;
-  final Function(String)? onChangedPriceField;
+  final MoneyMaskedTextController priceFieldController;
 
   ProductFilterSelectionLargeScreenPage({
     Key? key,
+    required this.store,
     this.onPressedSaveButton,
     required this.idFieldController,
-    required this.onChangedIdField,
     required this.nameFieldController,
-    required this.onChangedNameField,
     required this.priceFieldController,
-    required this.onChangedPriceField,
   }) : super(key: key);
 
   @override
@@ -35,24 +34,25 @@ class ProductFilterSelectionLargeScreenPage extends StatelessWidget {
               child: UnderlinedTextField(
                 label: "ID",
                 controller: idFieldController,
-                onChanged: onChangedIdField,
+                onChanged: store.setId,
               ),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
               child: UnderlinedTextField(
                 label: "Preço",
                 controller: priceFieldController,
-                onChanged: onChangedPriceField,
+                onChanged: (_) =>
+                    store.setPrice(priceFieldController.numberValue.toString()),
               ),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
               flex: 3,
               child: UnderlinedTextField(
                 label: "Nome",
                 controller: nameFieldController,
-                onChanged: onChangedNameField,
+                onChanged: store.setName,
               ),
             ),
           ],

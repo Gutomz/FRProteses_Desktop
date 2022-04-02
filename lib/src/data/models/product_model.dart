@@ -28,14 +28,6 @@ class ProductModel extends ProductEntity {
     );
   }
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
-      id: (json["id"] as num).toInt(),
-      name: json["name"] as String,
-      price: (json["price"] as num).toDouble(),
-    );
-  }
-
   factory ProductModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.productModelPattern);
 
@@ -48,14 +40,6 @@ class ProductModel extends ProductEntity {
     } on Exception {
       return ProductModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "name": name,
-      "price": price,
-    };
   }
 
   @override

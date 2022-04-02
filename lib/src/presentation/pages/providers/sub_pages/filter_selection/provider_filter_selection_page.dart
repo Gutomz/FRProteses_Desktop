@@ -26,14 +26,12 @@ class ProviderFilterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _store = arguments.store;
     return ResponsiveWidget(
       largeScreenWidget: ProviderFilterSelectionLargeScreenPage(
+        store: arguments.store,
         onPressedSaveButton: onPressedSaveButton,
         idFieldController: idFieldController,
-        onChangedIdField: _store.setId,
         nameFieldController: nameFieldController,
-        onChangedNameField: _store.setFullName,
       ),
     );
   }

@@ -14,20 +14,8 @@ class MoneyPaymentMethodModel extends MoneyPaymentMethodEntity
   }
 
   // ignore: avoid_unused_constructor_parameters
-  factory MoneyPaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    return MoneyPaymentMethodModel();
-  }
-
-  // ignore: avoid_unused_constructor_parameters
   factory MoneyPaymentMethodModel.fromString(String str) {
     return MoneyPaymentMethodModel();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      "type": type,
-    };
   }
 
   @override

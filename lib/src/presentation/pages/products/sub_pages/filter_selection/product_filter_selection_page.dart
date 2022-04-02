@@ -30,17 +30,13 @@ class ProductFilterSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _store = arguments.store;
     return ResponsiveWidget(
       largeScreenWidget: ProductFilterSelectionLargeScreenPage(
+        store: arguments.store,
         onPressedSaveButton: onPressedSaveButton,
         idFieldController: idFieldController,
-        onChangedIdField: _store.setId,
         nameFieldController: nameFieldController,
-        onChangedNameField: _store.setName,
         priceFieldController: priceFieldController,
-        onChangedPriceField: (_) =>
-            _store.setPrice(priceFieldController.numberValue.toString()),
       ),
     );
   }

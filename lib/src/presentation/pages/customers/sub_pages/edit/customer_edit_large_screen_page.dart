@@ -1,81 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:frproteses/src/presentation/config/constants.dart';
+import 'package:frproteses/src/presentation/pages/customers/sub_pages/edit/store/customer_edit_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/area_text_field.dart';
 import 'package:frproteses/src/presentation/widgets/form_widget.dart';
 import 'package:frproteses/src/presentation/widgets/underlined_text_field.dart';
 
 class CustomerEditLargeScreenPage extends StatelessWidget {
+  final CustomerEditPageStore store;
   final String id;
   final TextEditingController nameFieldController;
-  final Function(String)? onChangedNameField;
-  final String? nameFieldErrorText;
   final TextEditingController lastNameFieldController;
-  final Function(String)? onChangedLastNameField;
-  final String? lastNameFieldErrorText;
   final TextEditingController emailFieldController;
-  final Function(String)? onChangedEmailField;
-  final String? emailFieldErrorText;
   final TextEditingController documentFieldController;
-  final Function(String)? onChangedDocumentField;
-  final String? documentFieldErrorText;
   final TextEditingController phoneFieldController;
-  final Function(String)? onChangedPhoneField;
-  final String? phoneFieldErrorText;
   final TextEditingController cepFieldController;
-  final Function(String)? onChangedCepField;
-  final String? cepFieldErrorText;
   final TextEditingController streetFieldController;
-  final Function(String)? onChangedStreetField;
-  final String? streetFieldErrorText;
   final TextEditingController neighborhoodFieldController;
-  final Function(String)? onChangedNeighborhoodField;
-  final String? neighborhoodFieldErrorText;
   final TextEditingController cityFieldController;
-  final Function(String)? onChangedCityField;
-  final String? cityFieldErrorText;
   final TextEditingController stateFieldController;
-  final Function(String)? onChangedStateField;
-  final String? stateFieldErrorText;
   final TextEditingController notesFieldController;
-  final Function(String)? onChangedNotesField;
-  final String? notesFieldErrorText;
   final Function()? onPressedSaveButton;
 
   CustomerEditLargeScreenPage({
     Key? key,
+    required this.store,
     required this.id,
     required this.nameFieldController,
-    required this.onChangedNameField,
-    required this.nameFieldErrorText,
     required this.lastNameFieldController,
-    required this.onChangedLastNameField,
-    required this.lastNameFieldErrorText,
     required this.emailFieldController,
-    required this.onChangedEmailField,
-    required this.emailFieldErrorText,
     required this.documentFieldController,
-    required this.onChangedDocumentField,
-    required this.documentFieldErrorText,
     required this.phoneFieldController,
-    required this.onChangedPhoneField,
-    required this.phoneFieldErrorText,
     required this.cepFieldController,
-    required this.onChangedCepField,
-    required this.cepFieldErrorText,
     required this.streetFieldController,
-    required this.onChangedStreetField,
-    required this.streetFieldErrorText,
     required this.neighborhoodFieldController,
-    required this.onChangedNeighborhoodField,
-    required this.neighborhoodFieldErrorText,
     required this.cityFieldController,
-    required this.onChangedCityField,
-    required this.cityFieldErrorText,
     required this.stateFieldController,
-    required this.onChangedStateField,
-    required this.stateFieldErrorText,
     required this.notesFieldController,
-    required this.onChangedNotesField,
-    required this.notesFieldErrorText,
     this.onPressedSaveButton,
   }) : super(key: key);
 
@@ -90,21 +51,25 @@ class CustomerEditLargeScreenPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              child: UnderlinedTextField(
-                label: "Nome",
-                controller: nameFieldController,
-                onChanged: onChangedNameField,
-                errorText: nameFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Nome",
+                  controller: nameFieldController,
+                  onChanged: store.setName,
+                  errorText: store.nameFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "Sobrenome",
-                controller: lastNameFieldController,
-                onChanged: onChangedLastNameField,
-                errorText: lastNameFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Sobrenome",
+                  controller: lastNameFieldController,
+                  onChanged: store.setLastName,
+                  errorText: store.lastNameFieldErrorMessage,
+                );
+              }),
             ),
           ],
         ),
@@ -113,30 +78,36 @@ class CustomerEditLargeScreenPage extends StatelessWidget {
           children: [
             Flexible(
               flex: 3,
-              child: UnderlinedTextField(
-                label: "E-mail",
-                controller: emailFieldController,
-                onChanged: onChangedEmailField,
-                errorText: emailFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "E-mail",
+                  controller: emailFieldController,
+                  onChanged: store.setEmail,
+                  errorText: store.emailFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "CPF",
-                controller: documentFieldController,
-                onChanged: onChangedDocumentField,
-                errorText: documentFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "CPF",
+                  controller: documentFieldController,
+                  onChanged: store.setDocument,
+                  errorText: store.documentFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "Telefone",
-                controller: phoneFieldController,
-                onChanged: onChangedPhoneField,
-                errorText: phoneFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Telefone",
+                  controller: phoneFieldController,
+                  onChanged: store.setPhone,
+                  errorText: store.phoneFieldErrorMessage,
+                );
+              }),
             ),
           ],
         ),
@@ -144,22 +115,26 @@ class CustomerEditLargeScreenPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              child: UnderlinedTextField(
-                label: "CEP",
-                controller: cepFieldController,
-                onChanged: onChangedCepField,
-                errorText: cepFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "CEP",
+                  controller: cepFieldController,
+                  onChanged: store.setCep,
+                  errorText: store.cepFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
               flex: 4,
-              child: UnderlinedTextField(
-                label: "Endereço",
-                controller: streetFieldController,
-                onChanged: onChangedStreetField,
-                errorText: streetFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Endereço",
+                  controller: streetFieldController,
+                  onChanged: store.setStreet,
+                  errorText: store.streetFieldErrorMessage,
+                );
+              }),
             ),
           ],
         ),
@@ -167,39 +142,47 @@ class CustomerEditLargeScreenPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              child: UnderlinedTextField(
-                label: "Bairro",
-                controller: neighborhoodFieldController,
-                onChanged: onChangedNeighborhoodField,
-                errorText: neighborhoodFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Bairro",
+                  controller: neighborhoodFieldController,
+                  onChanged: store.setNeighborhood,
+                  errorText: store.neighborhoodFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "Cidade",
-                controller: cityFieldController,
-                onChanged: onChangedCityField,
-                errorText: cityFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Cidade",
+                  controller: cityFieldController,
+                  onChanged: store.setCity,
+                  errorText: store.cityFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "Estado",
-                controller: stateFieldController,
-                onChanged: onChangedStateField,
-                errorText: stateFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Estado",
+                  controller: stateFieldController,
+                  onChanged: store.setState,
+                  errorText: store.stateFieldErrorMessage,
+                );
+              }),
             ),
           ],
         ),
-        AreaTextField(
-          label: "Observações",
-          controller: notesFieldController,
-          onChanged: onChangedNotesField,
-          errorText: notesFieldErrorText,
-        ),
+        Observer(builder: (_) {
+          return AreaTextField(
+            label: "Observações",
+            controller: notesFieldController,
+            onChanged: store.setNotes,
+            errorText: store.notesFieldErrorMessage,
+          );
+        }),
       ],
     );
   }

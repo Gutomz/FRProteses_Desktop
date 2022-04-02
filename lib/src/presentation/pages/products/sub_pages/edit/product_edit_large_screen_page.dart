@@ -1,27 +1,25 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:frproteses/src/presentation/config/constants.dart';
+import 'package:frproteses/src/presentation/pages/products/sub_pages/edit/store/product_edit_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/form_widget.dart';
 import 'package:frproteses/src/presentation/widgets/underlined_text_field.dart';
 
 class ProductEditLargeScreenPage extends StatelessWidget {
+  final ProductEditPageStore store;
   final String id;
   final Function()? onPressedSaveButton;
   final TextEditingController nameFieldController;
-  final Function(String)? onChangedNameField;
-  final String? nameFieldErrorText;
-  final TextEditingController priceFieldController;
-  final Function(String)? onChangedPriceField;
-  final String? priceFieldErrorText;
+  final MoneyMaskedTextController priceFieldController;
 
   ProductEditLargeScreenPage({
     Key? key,
+    required this.store,
     required this.id,
     this.onPressedSaveButton,
     required this.nameFieldController,
-    required this.onChangedNameField,
-    required this.nameFieldErrorText,
     required this.priceFieldController,
-    required this.onChangedPriceField,
-    required this.priceFieldErrorText,
   }) : super(key: key);
 
   @override
@@ -35,21 +33,26 @@ class ProductEditLargeScreenPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              child: UnderlinedTextField(
-                label: "Nome",
-                controller: nameFieldController,
-                onChanged: onChangedNameField,
-                errorText: nameFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Nome",
+                  controller: nameFieldController,
+                  onChanged: store.setName,
+                  errorText: store.nameFieldErrorMessage,
+                );
+              }),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: kFormHorizontalSpacing),
             Flexible(
-              child: UnderlinedTextField(
-                label: "Preço",
-                controller: priceFieldController,
-                onChanged: onChangedPriceField,
-                errorText: priceFieldErrorText,
-              ),
+              child: Observer(builder: (_) {
+                return UnderlinedTextField(
+                  label: "Preço",
+                  controller: priceFieldController,
+                  onChanged: (_) => store
+                      .setPrice(priceFieldController.numberValue.toString()),
+                  errorText: store.priceFieldErrorMessage,
+                );
+              }),
             ),
           ],
         ),

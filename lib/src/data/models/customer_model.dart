@@ -50,20 +50,6 @@ class CustomerModel extends CustomerEntity {
     );
   }
 
-  factory CustomerModel.fromJson(Map<String, dynamic> json) {
-    return CustomerModel(
-      id: (json["id"] as num).toInt(),
-      name: json["name"] as String,
-      lastName: json["lastName"] as String,
-      phone: json["phone"] as String,
-      email: json["email"] as String,
-      document: json["document"] as String,
-      addressModel:
-          AddressModel.fromJson(json["address"] as Map<String, dynamic>),
-      notes: json["notes"] as String,
-    );
-  }
-
   factory CustomerModel.fromString(String str) {
     final fields = str.split(SplitFieldsPattern.customerModelPattern);
 
@@ -81,19 +67,6 @@ class CustomerModel extends CustomerEntity {
     } on Exception {
       return CustomerModel.empty();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "name": name,
-      "lastName": lastName,
-      "phone": phone,
-      "email": email,
-      "document": document,
-      "address": AddressModel.copyFrom(addressEntity).toJson(),
-      "notes": notes,
-    };
   }
 
   @override

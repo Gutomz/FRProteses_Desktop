@@ -1,6 +1,5 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/injection_container.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
 import 'package:frproteses/src/presentation/helpers/responsive_widget.dart';
@@ -86,46 +85,21 @@ class CustomerEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      largeScreenWidget: Observer(
-        builder: (context) {
-          return CustomerEditLargeScreenPage(
-            id: _store.id.toString(),
-            nameFieldController: nameFieldController,
-            onChangedNameField: _store.setName,
-            nameFieldErrorText: _store.nameFieldErrorMessage,
-            lastNameFieldController: lastNameFieldController,
-            onChangedLastNameField: _store.setLastName,
-            lastNameFieldErrorText: _store.lastNameFieldErrorMessage,
-            emailFieldController: emailFieldController,
-            onChangedEmailField: _store.setEmail,
-            emailFieldErrorText: _store.emailFieldErrorMessage,
-            documentFieldController: documentNameFieldController,
-            onChangedDocumentField: _store.setDocument,
-            documentFieldErrorText: _store.documentFieldErrorMessage,
-            phoneFieldController: phoneFieldController,
-            onChangedPhoneField: _store.setPhone,
-            phoneFieldErrorText: _store.phoneFieldErrorMessage,
-            cepFieldController: cepFieldController,
-            onChangedCepField: _store.setCep,
-            cepFieldErrorText: _store.cepFieldErrorMessage,
-            streetFieldController: streetFieldController,
-            onChangedStreetField: _store.setStreet,
-            streetFieldErrorText: _store.streetFieldErrorMessage,
-            neighborhoodFieldController: neighborhoodFieldController,
-            onChangedNeighborhoodField: _store.setNeighborhood,
-            neighborhoodFieldErrorText: _store.neighborhoodFieldErrorMessage,
-            cityFieldController: cityFieldController,
-            onChangedCityField: _store.setCity,
-            cityFieldErrorText: _store.cityFieldErrorMessage,
-            stateFieldController: stateFieldController,
-            onChangedStateField: _store.setState,
-            stateFieldErrorText: _store.stateFieldErrorMessage,
-            notesFieldController: notesFieldController,
-            onChangedNotesField: _store.setNotes,
-            notesFieldErrorText: _store.notesFieldErrorMessage,
-            onPressedSaveButton: () => saveForm(context),
-          );
-        },
+      largeScreenWidget: CustomerEditLargeScreenPage(
+        store: _store,
+        id: _store.id.toString(),
+        onPressedSaveButton: () => saveForm(context),
+        nameFieldController: nameFieldController,
+        lastNameFieldController: lastNameFieldController,
+        emailFieldController: emailFieldController,
+        documentFieldController: documentNameFieldController,
+        phoneFieldController: phoneFieldController,
+        cepFieldController: cepFieldController,
+        streetFieldController: streetFieldController,
+        neighborhoodFieldController: neighborhoodFieldController,
+        cityFieldController: cityFieldController,
+        stateFieldController: stateFieldController,
+        notesFieldController: notesFieldController,
       ),
     );
   }

@@ -207,16 +207,13 @@ class OrderEditLargeScreenPage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: kFormLineSpacing),
-                    Scrollbar(
+                    SingleChildScrollViewWithScrollbar(
                       controller: dentalArchScrollController,
                       thumbVisibility: true,
                       trackVisibility: true,
-                      child: SingleChildScrollView(
-                        controller: dentalArchScrollController,
-                        padding: EdgeInsets.only(bottom: 15),
-                        scrollDirection: Axis.horizontal,
-                        child: _buildDentalArch(),
-                      ),
+                      padding: EdgeInsets.only(bottom: 15),
+                      scrollDirection: Axis.horizontal,
+                      child: _buildDentalArch(),
                     ),
                   ],
                 ),

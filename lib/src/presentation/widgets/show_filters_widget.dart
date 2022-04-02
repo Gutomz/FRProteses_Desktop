@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frproteses/src/presentation/widgets/single_child_scroll_view_with_scrollbar.dart';
 
 class Filter {
   final String name;
@@ -16,13 +17,16 @@ class ShowFiltersWidget extends StatelessWidget {
   final List<Filter> filters;
   final Function() onPressedClearFilters;
   final Widget? empty;
+  final ScrollController _controller;
 
   ShowFiltersWidget({
     Key? key,
     required this.filters,
     required this.onPressedClearFilters,
     this.empty,
-  }) : super(key: key);
+    ScrollController? controller,
+  })  : _controller = controller ?? ScrollController(),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +49,12 @@ class ShowFiltersWidget extends StatelessWidget {
 
   Widget _buildFiltersList(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
+      child: SingleChildScrollViewWithScrollbar(
+        controller: _controller,
         scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.only(bottom: 15),
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 15, bottom: 15, left: 5, right: 10),
+          padding: const EdgeInsets.only(top: 15, left: 5, right: 10),
           child: Row(
             children: [
               ...filters.map((filter) => Row(
