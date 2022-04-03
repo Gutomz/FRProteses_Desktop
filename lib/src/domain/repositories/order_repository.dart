@@ -8,4 +8,5 @@ abstract class IOrderRepository {
   Future<Either<Failure, OrderEntity>> getById(int id);
   Future<Either<Failure, int>> getNextId();
   Future<Either<Failure, OrderEntity>> setClose(int id);
+  Future<Either<Failure, void>> clear();
 }

@@ -24,6 +24,11 @@ abstract class IProductLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<int> getNextId();
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class ProductLocalDataSourceImpl implements IProductLocalDataSource {
@@ -97,5 +102,14 @@ class ProductLocalDataSourceImpl implements IProductLocalDataSource {
     }
 
     return models.last.id + 1;
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      productFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
+    }
   }
 }

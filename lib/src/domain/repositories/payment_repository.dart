@@ -9,4 +9,5 @@ abstract class IPaymentRepository {
   Future<Either<Failure, List<PaymentEntity>>> getAll();
   Future<Either<Failure, PaymentEntity>> getById(int id);
   Future<Either<Failure, int>> getNextId();
+  Future<Either<Failure, void>> clear();
 }

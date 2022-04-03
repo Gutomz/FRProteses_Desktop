@@ -18,6 +18,7 @@ import 'package:frproteses/src/presentation/pages/products/sub_pages/filter_sele
 import 'package:frproteses/src/presentation/pages/providers/providers_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/sub_pages/edit/provider_edit_page.dart';
 import 'package:frproteses/src/presentation/pages/providers/sub_pages/filter_selection/provider_filter_selection_page.dart';
+import 'package:frproteses/src/presentation/pages/settings/settings_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   final Widget page;
@@ -125,6 +126,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           "PaymentFilterSelectionPage requires PaymentFilterSelectionPageArguments as Parameters");
       page = PaymentFilterSelectionPage(
           arguments: args as PaymentFilterSelectionPageArguments);
+      break;
+
+    case settingsPageRoute:
+      page = SettingsPage();
       break;
 
     case overviewPageRoute:

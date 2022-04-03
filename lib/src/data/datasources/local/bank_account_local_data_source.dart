@@ -45,6 +45,11 @@ abstract class IBankAccountLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<void> report(int customerId);
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
@@ -180,5 +185,14 @@ class BankAccountLocalDataSourceImpl implements IBankAccountLocalDataSource {
     model.balance -= model.outstandingBalance;
     model.outstandingBalance = 0;
     await set(model);
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      bankAccountFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
+    }
   }
 }

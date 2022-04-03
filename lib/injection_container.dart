@@ -19,6 +19,7 @@ import 'package:frproteses/src/domain/repositories/payment_repository.dart';
 import 'package:frproteses/src/domain/repositories/product_repository.dart';
 import 'package:frproteses/src/domain/repositories/provider_repository.dart';
 import 'package:frproteses/src/domain/usecases/bank_account/index.dart';
+import 'package:frproteses/src/domain/usecases/clear_database.dart';
 import 'package:frproteses/src/domain/usecases/customer/index.dart';
 import 'package:frproteses/src/domain/usecases/order/index.dart';
 import 'package:frproteses/src/domain/usecases/payment/index.dart';
@@ -32,6 +33,7 @@ import 'package:frproteses/src/presentation/stores/order_store.dart';
 import 'package:frproteses/src/presentation/stores/payment_store.dart';
 import 'package:frproteses/src/presentation/stores/product_store.dart';
 import 'package:frproteses/src/presentation/stores/provider_store.dart';
+import 'package:frproteses/src/presentation/stores/settings_store.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -130,6 +132,12 @@ void _initSrcStores() {
       reportUseCase: sl(),
     ),
   );
+
+  sl.registerFactory(
+    () => SettingsStore(
+      clearDatabaseUseCase: sl(),
+    ),
+  );
 }
 
 void _initSrcUseCases() {
@@ -167,6 +175,17 @@ void _initSrcUseCases() {
   sl.registerLazySingleton(() => PayBankAccount(sl()));
   sl.registerLazySingleton(() => ChargeBankAccount(sl()));
   sl.registerLazySingleton(() => ReportBankAccount(sl()));
+
+  sl.registerLazySingleton(
+    () => ClearDatabase(
+      bankAccountRepository: sl(),
+      customerRepository: sl(),
+      orderRepository: sl(),
+      paymentRepository: sl(),
+      productRepository: sl(),
+      providerRepository: sl(),
+    ),
+  );
 }
 
 void _initSrcRepositories() {

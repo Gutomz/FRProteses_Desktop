@@ -33,6 +33,11 @@ abstract class IOrderLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<OrderModel> setClose(int id);
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class OrderLocalDataSourceImpl implements IOrderLocalDataSource {
@@ -151,6 +156,15 @@ class OrderLocalDataSourceImpl implements IOrderLocalDataSource {
       }
 
       index++;
+    }
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      orderFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
     }
   }
 }
