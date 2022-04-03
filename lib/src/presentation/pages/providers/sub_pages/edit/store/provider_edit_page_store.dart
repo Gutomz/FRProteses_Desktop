@@ -136,11 +136,10 @@ abstract class _ProviderEditPageStoreBase with Store {
   bool get isNameValid => name.isNotEmpty && name.length > 1;
 
   @computed
-  bool get isLastNameValid => lastName.isNotEmpty && lastName.length > 1;
+  bool get isLastNameValid => true;
 
   @computed
-  bool get isEmailValid =>
-      email.isEmpty || (email.isNotEmpty && email.contains("@"));
+  bool get isEmailValid => true;
 
   @computed
   bool get isPhoneValid => true;
@@ -200,9 +199,8 @@ abstract class _ProviderEditPageStoreBase with Store {
     String? message;
 
     if (triedToCompleteTheForm) {
-      if (lastName.isEmpty) {
-        message = FieldErrorMessages.requiredField;
-      } else if (!isLastNameValid) {
+      /* Not required field */
+      if (!isLastNameValid) {
         message = FieldErrorMessages.invalidField;
       }
     }
