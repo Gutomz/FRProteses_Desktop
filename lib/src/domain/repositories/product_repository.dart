@@ -9,4 +9,5 @@ abstract class IProductRepository {
   Future<Either<Failure, List<ProductEntity>>> getAll();
   Future<Either<Failure, ProductEntity>> getById(int id);
   Future<Either<Failure, int>> getNextId();
+  Future<Either<Failure, void>> clear();
 }

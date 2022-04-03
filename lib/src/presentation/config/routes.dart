@@ -20,6 +20,8 @@ const String paymentPageRoute = "Pagamentos";
 const String paymentEditPageRoute = "Editar Pagamento";
 const String paymentFilterSelectionPageRoute = "Filtrar Pagamentos";
 
+const String settingsPageRoute = "Configurações";
+
 final List<String> mainRoutes = [
   overviewPageRoute,
   customerPageRoute,
@@ -27,6 +29,7 @@ final List<String> mainRoutes = [
   productPageRoute,
   orderPageRoute,
   paymentPageRoute,
+  settingsPageRoute
 ];
 
 bool isMainRoute(String routeName) {

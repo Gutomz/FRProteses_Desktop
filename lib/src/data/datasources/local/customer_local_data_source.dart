@@ -29,6 +29,11 @@ abstract class ICustomerLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<bool> exists(int id);
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
@@ -111,6 +116,15 @@ class CustomerLocalDataSourceImpl implements ICustomerLocalDataSource {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      customerFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
     }
   }
 }

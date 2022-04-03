@@ -24,6 +24,11 @@ abstract class IProviderLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<int> getNextId();
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
@@ -97,5 +102,14 @@ class ProviderLocalDataSourceImpl implements IProviderLocalDataSource {
     }
 
     return models.last.id + 1;
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      providerFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
+    }
   }
 }

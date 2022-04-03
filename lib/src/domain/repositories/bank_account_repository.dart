@@ -13,4 +13,5 @@ abstract class IBankAccountRepository {
   Future<Either<Failure, void>> pay(int customerId, double amount);
   Future<Either<Failure, void>> charge(int customerId, double amount);
   Future<Either<Failure, void>> report(int customerId);
+  Future<Either<Failure, void>> clear();
 }

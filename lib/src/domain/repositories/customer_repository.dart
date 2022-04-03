@@ -7,4 +7,5 @@ abstract class ICustomerRepository {
   Future<Either<Failure, CustomerEntity>> getById(int id);
   Future<Either<Failure, List<CustomerEntity>>> getAll();
   Future<Either<Failure, int>> getNextId();
+  Future<Either<Failure, void>> clear();
 }

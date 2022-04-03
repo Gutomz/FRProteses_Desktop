@@ -82,6 +82,8 @@ class Menu extends StatelessWidget {
         return Icons.shopping_cart_rounded;
       case paymentPageRoute:
         return Icons.account_balance_wallet_rounded;
+      case settingsPageRoute:
+        return Icons.settings_rounded;
       case overviewPageRoute:
       default:
         return Icons.home;

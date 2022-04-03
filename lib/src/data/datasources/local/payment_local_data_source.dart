@@ -25,6 +25,11 @@ abstract class IPaymentLocalDataSource {
   ///
   /// Throws a [LocalException] for all error codes.
   Future<int> getNextId();
+
+  /// Clear database
+  ///
+  /// Throws a [LocalException] for all error codes.
+  Future<void> clear();
 }
 
 class PaymentLocalDataSourceImpl implements IPaymentLocalDataSource {
@@ -114,5 +119,14 @@ class PaymentLocalDataSourceImpl implements IPaymentLocalDataSource {
     final _customerId = payment.customerEntity.id;
     final _updatedCustomer = await customerLocalDataSource.getById(_customerId);
     payment.customerEntity = _updatedCustomer;
+  }
+
+  @override
+  Future<void> clear() async {
+    try {
+      paymentFile.writeAsStringSync("");
+    } on FileSystemException {
+      throw LocalException();
+    }
   }
 }

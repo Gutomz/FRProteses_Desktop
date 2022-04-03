@@ -94,4 +94,14 @@ class BankAccountRepositoryImpl implements IBankAccountRepository {
       return Left(LocalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> clear() async {
+    try {
+      await localDataSource.clear();
+      return Right(null);
+    } on LocalException {
+      return Left(LocalFailure());
+    }
+  }
 }
