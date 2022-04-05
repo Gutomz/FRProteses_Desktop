@@ -10,12 +10,14 @@ class MenuItem extends StatelessWidget {
 
   final String itemName;
   final IconData icon;
+  final IconData selectedIcon;
   final Function() onTap;
 
   MenuItem({
     Key? key,
     required this.itemName,
     required this.icon,
+    required this.selectedIcon,
     required this.onTap,
   }) : super(key: key);
 
@@ -64,7 +66,9 @@ class MenuItem extends StatelessWidget {
               SizedBox(width: _width / 80),
               Padding(
                 padding: EdgeInsets.all(16),
-                child: MenuIcon(icon: icon, itemName: itemName),
+                child: MenuIcon(
+                    icon: _menuStore.isActive(itemName) ? selectedIcon : icon,
+                    itemName: itemName),
               ),
               if (!_menuStore.isActive(itemName))
                 Flexible(

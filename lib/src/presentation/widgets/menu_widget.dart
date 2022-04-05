@@ -59,6 +59,7 @@ class Menu extends StatelessWidget {
                     (itemName) => MenuItem(
                       itemName: itemName,
                       icon: _getIconDataFor(itemName),
+                      selectedIcon: _getIconDataFor(itemName, isSelected: true),
                       onTap: () => _onTapMenuItem(context, itemName),
                     ),
                   )
@@ -70,23 +71,25 @@ class Menu extends StatelessWidget {
     );
   }
 
-  IconData _getIconDataFor(String itemName) {
+  IconData _getIconDataFor(String itemName, {bool isSelected = false}) {
     switch (itemName) {
       case customerPageRoute:
-        return Icons.person;
+        return isSelected ? Icons.groups : Icons.groups_outlined;
       case providerPageRoute:
-        return Icons.add_business;
+        return isSelected ? Icons.apartment : Icons.apartment_outlined;
       case productPageRoute:
-        return Icons.fastfood;
+        return isSelected ? Icons.view_in_ar : Icons.view_in_ar_outlined;
       case orderPageRoute:
-        return Icons.shopping_cart_rounded;
+        return isSelected ? Icons.shopping_cart : Icons.shopping_cart_outlined;
       case paymentPageRoute:
-        return Icons.account_balance_wallet_rounded;
+        return isSelected
+            ? Icons.account_balance_wallet
+            : Icons.account_balance_wallet_outlined;
       case settingsPageRoute:
-        return Icons.settings_rounded;
+        return isSelected ? Icons.settings : Icons.settings_outlined;
       case overviewPageRoute:
       default:
-        return Icons.home;
+        return isSelected ? Icons.home : Icons.home_outlined;
     }
   }
 
