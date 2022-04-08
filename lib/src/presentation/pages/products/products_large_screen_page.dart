@@ -6,6 +6,7 @@ import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/product_entity.dart';
 import 'package:frproteses/src/presentation/pages/products/store/products_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/custom_data_table_widget.dart';
+import 'package:frproteses/src/presentation/widgets/data_cell_simple_text.dart';
 import 'package:frproteses/src/presentation/widgets/show_filters_widget.dart';
 
 class ProductsLargeScreenPage extends StatelessWidget {
@@ -39,8 +40,8 @@ class ProductsLargeScreenPage extends StatelessWidget {
             onPressedRow: onPressedEdit,
             buildCell: (e) => [
               DataCell(Text("${e.id}".padLeft(4, "0"))),
-              DataCell(Text(e.name)),
-              DataCell(Text(e.price.formatMoney())),
+              DataCell(DataCellSimpleText(text: e.name)),
+              DataCell(DataCellSimpleText(text: e.price.formatMoney())),
             ],
           ),
           columns: [

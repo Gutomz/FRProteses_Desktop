@@ -1,13 +1,13 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:frproteses/data_table/custom_data_table.dart';
 import 'package:frproteses/data_table/src/custom_data_table_source.dart';
-import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/bank_account_entity.dart';
 import 'package:frproteses/src/domain/entities/customer_entity.dart';
 import 'package:frproteses/src/presentation/pages/customers/store/customers_page_store.dart';
+import 'package:frproteses/src/presentation/widgets/balance_widget.dart';
 import 'package:frproteses/src/presentation/widgets/custom_data_table_widget.dart';
+import 'package:frproteses/src/presentation/widgets/data_cell_simple_text.dart';
 import 'package:frproteses/src/presentation/widgets/show_filters_widget.dart';
 
 class CustomersLargeScreenPage extends StatelessWidget {
@@ -43,9 +43,9 @@ class CustomersLargeScreenPage extends StatelessWidget {
             onPressedRow: onPressedEdit,
             buildCell: (e) => [
               DataCell(Text("${e.id}".padLeft(4, "0"))),
-              DataCell(Text(e.fullName)),
-              DataCell(Text(e.email)),
-              DataCell(Text(e.phone)),
+              DataCell(DataCellSimpleText(text: e.fullName)),
+              DataCell(DataCellSimpleText(text: e.email)),
+              DataCell(DataCellSimpleText(text: e.phone)),
               DataCell(Observer(
                   builder: (context) => _buildBalanceCellWidget(context, e))),
             ],
@@ -90,49 +90,11 @@ class CustomersLargeScreenPage extends StatelessWidget {
     final isDebit = bankAccount.balance < 0;
     final isOutstanding = bankAccount.outstandingBalance > 0;
 
-    return Material(
-      color: Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            bankAccount.balance.abs().formatMoney(),
-            style: TextStyle(
-              color: isDebit
-                  ? Theme.of(context).colorScheme.error
-                  : Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-          Badge(
-            badgeContent: GestureDetector(
-              onTap: () => onPressedPrint?.call(context, bankAccount),
-              child: Tooltip(
-                message: "Extrato Pendente",
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 18,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            badgeColor: Theme.of(context).colorScheme.onErrorContainer,
-            position: BadgePosition.topEnd(
-              top: 0,
-              end: 0,
-            ),
-            showBadge: isOutstanding,
-            padding: EdgeInsets.all(0),
-            child: IconButton(
-              tooltip: "Imprimir Extrato",
-              splashRadius: 18,
-              onPressed: () => onPressedPrint?.call(context, bankAccount),
-              icon: Icon(
-                Icons.print_outlined,
-              ),
-            ),
-          ),
-        ],
-      ),
+    return BalanceWidget(
+      bankAccount: bankAccount,
+      isDebit: isDebit,
+      onPressedPrint: onPressedPrint,
+      isOutstanding: isOutstanding,
     );
   }
 
