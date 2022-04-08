@@ -73,11 +73,13 @@ class _DropDownTextFieldState<T> extends State<DropDownTextField<T>> {
     }
 
     widget.onChanged?.call(e);
+    _onChangedSearch("");
   }
 
   void _onCanceled() {
     widget.controller.text = "";
     widget.onChanged?.call(null);
+    _onChangedSearch(widget.controller.text);
   }
 
   void _onChangedSearch(String str) {

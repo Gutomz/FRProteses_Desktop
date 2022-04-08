@@ -7,6 +7,7 @@ import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/order_entity.dart';
 import 'package:frproteses/src/presentation/pages/orders/store/orders_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/custom_data_table_widget.dart';
+import 'package:frproteses/src/presentation/widgets/data_cell_simple_text.dart';
 import 'package:frproteses/src/presentation/widgets/show_filters_widget.dart';
 
 class OrdersLargeScreenPage extends StatelessWidget {
@@ -40,11 +41,13 @@ class OrdersLargeScreenPage extends StatelessWidget {
             onPressedRow: onPressedEdit,
             buildCell: (e) => [
               DataCell(Text("${e.id}".padLeft(4, "0"))),
-              DataCell(Text(e.statusType.title)),
-              DataCell(Text(e.customerEntity.fullName)),
-              DataCell(Text(e.totalPrice.formatMoney())),
-              DataCell(Text(e.orderDate.toDateTime()?.formatDate() ?? "-")),
-              DataCell(Text(e.deliveryDate.toDateTime()?.formatDate() ?? "-")),
+              DataCell(DataCellSimpleText(text: e.statusType.title)),
+              DataCell(DataCellSimpleText(text: e.customerEntity.fullName)),
+              DataCell(DataCellSimpleText(text: e.totalPrice.formatMoney())),
+              DataCell(DataCellSimpleText(
+                  text: e.orderDate.toDateTime()?.formatDate())),
+              DataCell(DataCellSimpleText(
+                  text: e.deliveryDate.toDateTime()?.formatDate())),
             ],
           ),
           columns: [

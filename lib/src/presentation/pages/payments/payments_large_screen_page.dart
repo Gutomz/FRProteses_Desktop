@@ -7,6 +7,7 @@ import 'package:frproteses/src/core/utils/extensions.dart';
 import 'package:frproteses/src/domain/entities/payment_entity.dart';
 import 'package:frproteses/src/presentation/pages/payments/store/payments_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/custom_data_table_widget.dart';
+import 'package:frproteses/src/presentation/widgets/data_cell_simple_text.dart';
 import 'package:frproteses/src/presentation/widgets/show_filters_widget.dart';
 
 class PaymentsLargeScreenPage extends StatelessWidget {
@@ -40,9 +41,9 @@ class PaymentsLargeScreenPage extends StatelessWidget {
             onPressedRow: onPressedEdit,
             buildCell: (e) => [
               DataCell(Text("${e.id}".padLeft(4, "0"))),
-              DataCell(Text(e.customerEntity.fullName)),
-              DataCell(Text(e.value.formatMoney())),
-              DataCell(Text(e.methodEntity.type.title)),
+              DataCell(DataCellSimpleText(text: e.customerEntity.fullName)),
+              DataCell(DataCellSimpleText(text: e.value.formatMoney())),
+              DataCell(DataCellSimpleText(text: e.methodEntity.type.title)),
               DataCell(Text(e.date)),
             ],
           ),

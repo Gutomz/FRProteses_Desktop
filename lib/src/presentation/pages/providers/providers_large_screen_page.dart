@@ -5,6 +5,7 @@ import 'package:frproteses/data_table/src/custom_data_table_source.dart';
 import 'package:frproteses/src/domain/entities/provider_entity.dart';
 import 'package:frproteses/src/presentation/pages/providers/store/providers_page_store.dart';
 import 'package:frproteses/src/presentation/widgets/custom_data_table_widget.dart';
+import 'package:frproteses/src/presentation/widgets/data_cell_simple_text.dart';
 import 'package:frproteses/src/presentation/widgets/show_filters_widget.dart';
 
 class ProvidersLargeScreenPage extends StatelessWidget {
@@ -38,9 +39,9 @@ class ProvidersLargeScreenPage extends StatelessWidget {
             onPressedRow: onPressedEdit,
             buildCell: (e) => [
               DataCell(Text("${e.id}".padLeft(4, "0"))),
-              DataCell(Text(e.fullName)),
-              DataCell(Text(e.email)),
-              DataCell(Text(e.phone)),
+              DataCell(DataCellSimpleText(text: e.fullName)),
+              DataCell(DataCellSimpleText(text: e.email)),
+              DataCell(DataCellSimpleText(text: e.phone)),
             ],
           ),
           columns: [
