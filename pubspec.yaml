@@ -39,7 +39,9 @@ dependencies:
   get_it: ^7.2.0
   intl: ^0.17.0
   mobx: ^2.0.6+1
+  msix: ^3.5.1
   printing: ^5.7.5
+  window_manager: ^0.2.1
 
 dev_dependencies:
   build_runner: ^2.1.7

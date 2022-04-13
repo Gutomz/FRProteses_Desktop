@@ -231,11 +231,11 @@ abstract class _OrderEditPageStoreBase with Store {
       unitPrice: selectedProduct!.price,
     );
 
-    selectedProducts
-        .add(products.firstWhere((e) => e.id == selectedProduct!.id));
+    selectedProducts.insert(
+        0, products.firstWhere((e) => e.id == selectedProduct!.id));
     products.removeWhere((e) => e.id == selectedProduct!.id);
 
-    items.add(item);
+    items.insert(0, item);
 
     if (products.isEmpty) {
       setSelectedProduct(null);

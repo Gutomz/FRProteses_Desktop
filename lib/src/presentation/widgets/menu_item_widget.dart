@@ -118,19 +118,34 @@ class MenuItem extends StatelessWidget {
                 maintainSize: true,
                 maintainState: true,
                 maintainAnimation: true,
-                child: Container(
-                  width: 3,
-                  height: 72,
-                  color: Theme.of(context).highlightColor,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  ),
+                  child: Container(
+                    width: 6,
+                    height: 72,
+                    color: Theme.of(context).highlightColor,
+                  ),
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    bottom: 16,
+                    right: 16,
+                    left: 12,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      MenuIcon(icon: icon, itemName: itemName),
+                      MenuIcon(
+                        icon:
+                            _menuStore.isActive(itemName) ? selectedIcon : icon,
+                        itemName: itemName,
+                      ),
                       if (!_menuStore.isActive(itemName))
                         Flexible(
                           child: Text(
