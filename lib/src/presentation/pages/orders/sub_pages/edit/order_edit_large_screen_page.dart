@@ -40,7 +40,6 @@ class OrderEditLargeScreenPage extends StatelessWidget {
   final TextEditingController totalPriceFieldController;
   final TextEditingController notesFieldController;
 
-  final ScrollController dentalArchScrollController = ScrollController();
   final ScrollController itemsTableHorizontalScrollController =
       ScrollController();
   final ScrollController itemsTableVerticalScrollController =
@@ -207,12 +206,8 @@ class OrderEditLargeScreenPage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: kFormLineSpacing),
-                    SingleChildScrollViewWithScrollbar(
-                      controller: dentalArchScrollController,
-                      thumbVisibility: true,
-                      trackVisibility: true,
-                      padding: EdgeInsets.only(bottom: 15),
-                      scrollDirection: Axis.horizontal,
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
                       child: _buildDentalArch(),
                     ),
                   ],
@@ -251,7 +246,6 @@ class OrderEditLargeScreenPage extends StatelessWidget {
                     ),
                     SizedBox(height: kFormLineSpacing),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
                           child: Observer(builder: (_) {
@@ -275,19 +269,36 @@ class OrderEditLargeScreenPage extends StatelessWidget {
                         ),
                         SizedBox(width: kFormHorizontalSpacing),
                         Expanded(
-                          child: Observer(builder: (_) {
-                            return OutlinedButton(
-                              onPressed:
-                                  store.selectedProduct != null && !closed
-                                      ? store.addSelectedProduct
-                                      : null,
-                              child: Text("Adicionar Produto"),
-                            );
-                          }),
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Observer(builder: (_) {
+                              return OutlinedButton(
+                                onPressed:
+                                    store.selectedProduct != null && !closed
+                                        ? store.addSelectedProduct
+                                        : null,
+                                child: Text("Adicionar Produto"),
+                              );
+                            }),
+                          ),
                         ),
                       ],
                     ),
-                    _buildItemsTable(),
+                    Expanded(
+                      child: Observer(
+                        builder: (context) =>
+                            SingleChildScrollViewWithScrollbar(
+                          controller: itemsTableVerticalScrollController,
+                          thumbVisibility: store.items.isNotEmpty,
+                          trackVisibility: store.items.isNotEmpty,
+                          padding: EdgeInsets.only(right: 10),
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: _buildItemsTable(context),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -307,53 +318,33 @@ class OrderEditLargeScreenPage extends StatelessWidget {
     );
   }
 
-  Widget _buildItemsTable() {
-    return Row(
-      children: [
-        Flexible(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Observer(builder: (_) {
-                return SizedBox(
-                  height: 210,
-                  child: SingleChildScrollViewWithScrollbar(
-                    controller: itemsTableHorizontalScrollController,
-                    thumbVisibility: store.items.isNotEmpty,
-                    trackVisibility: store.items.isNotEmpty,
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: SingleChildScrollViewWithScrollbar(
-                      controller: itemsTableVerticalScrollController,
-                      thumbVisibility: store.items.isNotEmpty,
-                      trackVisibility: store.items.isNotEmpty,
-                      padding: EdgeInsets.only(right: 10),
-                      child: Column(
-                        children: [
-                          Observer(builder: (_) {
-                            return DataTable(
-                              columns: _getColumns(),
-                              rows: _getRows(context),
-                            );
-                          }),
-                          Observer(builder: (_) {
-                            if (store.items.isEmpty) {
-                              return Center(
-                                  child: Text("Nenhum item adicionado"));
-                            }
+  Widget _buildItemsTable(BuildContext context) {
+    return Observer(builder: (_) {
+      return SingleChildScrollViewWithScrollbar(
+        controller: itemsTableHorizontalScrollController,
+        thumbVisibility: store.items.isNotEmpty,
+        trackVisibility: store.items.isNotEmpty,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.only(bottom: 10),
+        child: Column(
+          children: [
+            Observer(builder: (_) {
+              return DataTable(
+                columns: _getColumns(),
+                rows: _getRows(context),
+              );
+            }),
+            Observer(builder: (_) {
+              if (store.items.isEmpty) {
+                return Center(child: Text("Nenhum item adicionado"));
+              }
 
-                            return Container();
-                          }),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              });
-            },
-          ),
+              return Container();
+            }),
+          ],
         ),
-      ],
-    );
+      );
+    });
   }
 
   List<DataColumn> _getColumns() {
